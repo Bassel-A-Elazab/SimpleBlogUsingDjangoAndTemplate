@@ -37,11 +37,20 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
-LOCAL_APPS = []
+    'allauth.socialaccount.providers.google',
+]
+
+LOCAL_APPS = [
+    'webblog.users.apps.UsersConfig',
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -140,3 +149,19 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.MyUser'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+AUTHENTICATION_BACKEND = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
