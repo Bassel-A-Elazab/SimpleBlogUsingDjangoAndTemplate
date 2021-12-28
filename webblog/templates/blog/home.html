@@ -1,0 +1,6 @@
+<h1>WebBlog Project</h1>
+{% if user.is_authenticated %}
+<p>Welcome, {{ user.email }}</p>
+{% else %}
+<p>Please login</p>
+{% endif %}
