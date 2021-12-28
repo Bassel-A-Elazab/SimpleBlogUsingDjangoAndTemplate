@@ -10,7 +10,7 @@ class MyUsersManagersTests(TestCase):
             email='normal@user.com', name='normal', password='normal')
         self.assertEqual(user.email, 'normal@user.com')
         self.assertEqual(user.name, 'normal')
-        self.assertTrue(user.is_active)
+        self.assertFalse(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
         try:

@@ -7,7 +7,7 @@ from webblog.users.models import MyUser
 from webblog.users.forms import UserCreationFrom, UserSignUpForm
 
 
-class MyUserFormTests(TestCase):
+class MyUserFormsTests(TestCase):
 
     def test_clean_password2(self):
         form = UserCreationFrom(
