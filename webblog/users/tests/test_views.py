@@ -1,13 +1,10 @@
-from django.contrib.auth import tokens
-from django.http import response
 from django.test import TestCase
-from django.utils.encoding import force_str
-from django.urls import reverse_lazy
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
 from webblog.users.models import MyUser
 from webblog.users.tokens import account_activation_token
-from django.urls import reverse
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
 
 
 class MyUserViewsTests(TestCase):

@@ -1,19 +1,18 @@
-from django.views.generic import CreateView
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 
+from allauth.account.views import SignupView
 
 from .models import MyUser
 from .forms import UserSignUpForm
 from .tokens import account_activation_token
 
 
-class SignUp(CreateView):
+class SignUp(SignupView):
     form_class = UserSignUpForm
     success_url = reverse_lazy('home')
     template_name = 'account/signup.html'
@@ -47,7 +46,6 @@ def activate(request, uid, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
         return redirect('home')
     else:
         return render(request, 'account/account_verification_invalid_notice.html')
