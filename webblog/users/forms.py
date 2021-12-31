@@ -45,13 +45,17 @@ class UserChangeForm(forms.ModelForm):
 
 class UserSignUpForm(forms.ModelForm):
     password1 = forms.CharField(
-        label='Password', widget=widgets.PasswordInput)
+        label='Password', widget=widgets.PasswordInput(attrs={'placeholder': 'Password'}))
     password2 = forms.CharField(
-        label='Password Confirmation', widget=widgets.PasswordInput)
+        label='Password Confirmation', widget=widgets.PasswordInput(attrs={'placeholder': 'Password (again)'}))
 
     class Meta:
         model = MyUser
         fields = ('email', 'name')
+        widgets = {
+            'email': forms.TextInput(attrs={'placeholder': 'E-mail address'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
