@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
 ]
 
 LOCAL_APPS = [
@@ -135,7 +136,7 @@ ADMIN_URL = "admin/"
 
 STATIC_ROOT = str(ROOT_DIR / 'staticfiles')
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [str(APPS_DIR / 'static')]
 
 # MEDIA
 # ------------------------------------------------------------------------------
@@ -157,6 +158,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_LOGOUT_ON_GET = True
 
 AUTHENTICATION_BACKEND = [
     'django.contrib.auth.backends.ModelBackend',
@@ -166,6 +168,17 @@ AUTHENTICATION_BACKEND = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 # SENDING EMAIL
 
