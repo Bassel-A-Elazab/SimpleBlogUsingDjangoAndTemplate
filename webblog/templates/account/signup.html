@@ -1,28 +1,39 @@
+{% extends 'account/base.html' %}
+
+{% load i18n %}
+{% block head_title %}{% trans 'Sign Up' %}{% endblock %}
+
 {% block content %}
-
-    <div>
-        <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-
-            <div>
-                <input type="{% if field.id_for_label == 'id_password2' or field.id_for_label == 'id_password1' %}password{% else %}text{% endif %}"
-                    name="{{ field.html_name }}" id="{{ field.id_for_label }}">
-                <label cor="{{ field.id_for_label }}">{{ field.label }}</label>
-            </div>
-            {% for error in field.errors %}
-            <span>{{ error }}</span>
-            {% endfor %}
-
-            {% if field.help_text %}
-            <p>{{ field.help_text|safe }}</p>
-            {% endif %}
-            {% endfor %}
-            <div>
-                <button type="submit">Sign up
-                </button>
-            </div>
-        </form>
+<div class="sign_up_container">
+    <div class="sign_up_header">
+        <h2>Sign Up</h2>
     </div>
+    <div class="sign_up_main_form">
+        
+        <div class="sign_up_form">
+            
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    <div class="sign_up_form_fields">
+                        {{ field }}
+                    </div>
+                    {% for error in field.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                {% endfor %}
+                <div class="sign_up_submit_container">
+                    <button class="sign_up_submit_button" type="submit">
+                        {% trans 'Sign Up' %}
+                    </button>
+                </div>
     
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}

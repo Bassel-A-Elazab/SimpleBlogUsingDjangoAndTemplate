@@ -1,0 +1,96 @@
+body {
+    background: lightgray;
+    margin: 0;
+    padding: 0;
+}
+
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_logo {}
+
+.header_profile_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.header_nav_item {
+    float: left;
+    border:1px solid #bbb;
+}
+
+.header_nav_link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.9rem;
+}
+
+.login_header,
+.sign_up_header {
+    display: flex;
+    justify-content: center;
+}
+
+.login_form,
+.sign_up_form {
+    width: 300px;
+    margin: 0 auto;
+}
+    
+.login_form_help {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login_form_fields,
+.sign_up_form_fields {
+    margin-bottom: 0.5rem;
+}
+
+.login_form_fields input,
+.sign_up_form_fields input {
+    width: 90%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.remember input {
+    float: left;
+    width: auto;
+    margin-left: 0;
+}
+
+.remember label { 
+    margin-left: 0.8rem;
+}
+
+.login_submit_button,
+.sign_up_submit_button {
+    width: 100%;
+    border: 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.login_help_link {
+    text-decoration: none;
+}
+
+.login_social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.social_account_providers {
+    display: flex;
+    justify-content: space-between;
+}
