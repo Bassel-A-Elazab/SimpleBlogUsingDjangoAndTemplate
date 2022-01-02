@@ -36,7 +36,9 @@ body {
 }
 
 .login_form,
-.sign_up_form {
+.sign_up_form,
+.reset_form,
+.reset_done_container {
     width: 300px;
     margin: 0 auto;
 }
@@ -52,7 +54,8 @@ body {
 }
 
 .login_form_fields input,
-.sign_up_form_fields input {
+.sign_up_form_fields input,
+.reset_form input{
     width: 90%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -71,7 +74,8 @@ body {
 }
 
 .login_submit_button,
-.sign_up_submit_button {
+.sign_up_submit_button, 
+.reset_button {
     width: 100%;
     border: 0;
     cursor: pointer;
@@ -93,4 +97,9 @@ body {
 .social_account_providers {
     display: flex;
     justify-content: space-between;
+}
+
+.reset_header {
+    display: flex;
+    justify-content: center;
 }
