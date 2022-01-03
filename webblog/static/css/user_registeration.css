@@ -30,15 +30,19 @@ body {
 }
 
 .login_header,
-.sign_up_header {
+.sign_up_header,
+.logout_header {
     display: flex;
     justify-content: center;
 }
 
 .login_form,
 .sign_up_form,
+.logout_form,
 .reset_form,
-.reset_done_container {
+.reset_done_container, 
+.reset_key_container, 
+.reset_key_done_container{
     width: 300px;
     margin: 0 auto;
 }
@@ -55,7 +59,8 @@ body {
 
 .login_form_fields input,
 .sign_up_form_fields input,
-.reset_form input{
+.reset_form input,
+.reset_done_field input {
     width: 90%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -75,7 +80,9 @@ body {
 
 .login_submit_button,
 .sign_up_submit_button, 
-.reset_button {
+.logout_submit_button,
+.reset_button,
+.reset_key_button {
     width: 100%;
     border: 0;
     cursor: pointer;
