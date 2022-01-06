@@ -154,11 +154,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.MyUser'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
 ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+
 ACCOUNT_USERNAME_REQUIRED = False
+
 ACCOUNT_UNIQUE_EMAIL = True
+
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_LOGOUT_ON_GET = True
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'webblog.users.forms.UserSignUpForm'
+
+SOCIALACCOUNT_ADAPTER = 'webblog.users.adapter.CustomSocialAccountAdapter'
 
 AUTHENTICATION_BACKEND = [
     'django.contrib.auth.backends.ModelBackend',
@@ -167,18 +178,6 @@ AUTHENTICATION_BACKEND = [
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
 
 # SENDING EMAIL
 
