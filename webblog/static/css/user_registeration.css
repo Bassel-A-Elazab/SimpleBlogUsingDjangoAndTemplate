@@ -42,7 +42,9 @@ body {
 .reset_form,
 .reset_done_container, 
 .reset_key_container, 
-.reset_key_done_container{
+.reset_key_done_container,
+.verification_sent_container,
+.email_confirm_container {
     width: 300px;
     margin: 0 auto;
 }
@@ -82,7 +84,8 @@ body {
 .sign_up_submit_button, 
 .logout_submit_button,
 .reset_button,
-.reset_key_button {
+.reset_key_button,
+.confirm_email_button {
     width: 100%;
     border: 0;
     cursor: pointer;
