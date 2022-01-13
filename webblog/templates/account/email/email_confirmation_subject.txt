@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Bassel Please Confirm Your E-mail Addresss{% endblocktrans %}
+{% endautoescape %}
