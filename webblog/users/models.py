@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.dispatch import receiver 
+
 from allauth.account.signals import user_signed_up
 
 from .managers import MyUserManager
@@ -16,7 +17,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField(blank=True, null=True)
     picture = models.ImageField(blank=True, null=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
     objects = MyUserManager()
@@ -30,3 +31,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+@receiver(user_signed_up)
+def user_signed_up_(request, user, **kwargs):
+    user.is_active = True
+    user.save()
