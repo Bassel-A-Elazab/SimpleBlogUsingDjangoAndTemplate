@@ -48,10 +48,11 @@ class UserSignUpForm(forms.ModelForm):
         label='Password', widget=widgets.PasswordInput(attrs={'placeholder': 'Password'}))
     password2 = forms.CharField(
         label='Password Confirmation', widget=widgets.PasswordInput(attrs={'placeholder': 'Password (again)'}))
-
+    field_order = ['email', 'name', 'password1', 'password2']
     class Meta:
         model = MyUser
         fields = ('email', 'name')
+        
         widgets = {
             'email': forms.TextInput(attrs={'placeholder': 'E-mail address'}),
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
