@@ -60,8 +60,3 @@ class MyUserFormsTests(TestCase):
             }
         )
         self.assertTrue(form.is_valid())
-        if form.is_valid():
-            form.save(commit=False)
-            if form.save(commit=True):
-                user = form.save(commit=False)
-                user.save()
