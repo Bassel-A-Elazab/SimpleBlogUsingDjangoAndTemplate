@@ -4,11 +4,12 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.dispatch import receiver 
+from django.core.files.base import ContentFile
 
 from allauth.account.signals import user_signed_up
 
 from .managers import MyUserManager
-
+from .utils import Avatar
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
@@ -33,5 +34,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
 @receiver(user_signed_up)
 def user_signed_up_(request, user, **kwargs):
+    s = Avatar.generate(128, user.email, "PNG")
+    user.picture.save('%s.png' % (user.email[0] + str(user.pk)), ContentFile(s))
     user.is_active = True
     user.save()
