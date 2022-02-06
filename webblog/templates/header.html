@@ -4,23 +4,22 @@
             MyBlog
         </div>
         <div class="header_profile">
-            <ul class="header_profile_list">
+            <div class="header_profile_list">
             {% if user.is_authenticated %}
-                <li class="header_nav_item">
-                    <a class="header_nav_link" href="#">{{user.name}}</a>
-                </li>
-                <li class="header_nav_item">
+                <div class="header_nav_item">
+                    <a class="header_nav_link header_user_info" href="#">
+                        <img class="header_avatar" src="{{ user.picture.url }}" alt="{{user.email}}"> 
+                        <span class="header_username">{{ user.name }}</span>  
+                    </a>
                     <a class="header_nav_link" href="{% url 'account_logout' %}">Logout</a>
-                </li>
+                </div>
             {% else %}
-                <li class="header_nav_item">
+                <div class="header_nav_item">
                     <a class="header_nav_link" href="{% url 'account_login' %}">Login</a>
-                </li>
-                <li class="header_nav_item">
                     <a class="header_nav_link" href="{% url 'account_signup' %}">SignUp</a>
-                </li>
+                </div>
             {% endif %}
-            </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -9,21 +9,33 @@ body {
     align-items: center;
 }
 
-.header_profile_list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 .header_nav_item {
-    float: left;
-    border:1px solid #bbb;
+    width: 100%;
+    overflow: auto;
 }
 
 .header_nav_link {
-    display: block;
+    float: left;
+    padding: 12px;
     text-align: center;
     text-decoration: none;
-    padding: 0.9rem;
+    border:1px solid rgb(187, 63, 63);
+}
+
+.header_user_info {
+    display: flex;
+    align-items: center;
+}
+
+.header_avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+
+.header_username {
+    align-items: center;
+    margin-left: 5px;
 }
 
 .login_header,

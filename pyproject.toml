@@ -17,6 +17,7 @@ django-allauth = "^0.47.0"
 coverage = "^6.2"
 django-utils-six = "^2.0"
 six = "^1.16.0"
+avatar-generator = "^0.2"
 
 [tool.poetry.dev-dependencies]
 
