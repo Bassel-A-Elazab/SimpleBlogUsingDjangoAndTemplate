@@ -12,3 +12,6 @@ class Blog(models.Model):
     class Meta:
         ordering = ["-post_date"]
     
+    def __str__(self):
+        return self.title
+    
