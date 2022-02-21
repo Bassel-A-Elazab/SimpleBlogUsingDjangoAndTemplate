@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul>
+        {% for blog in my_blog_list %}
+            <li>{{ blog.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+    
