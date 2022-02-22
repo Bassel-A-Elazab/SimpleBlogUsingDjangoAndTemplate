@@ -48,4 +48,7 @@ class BlogModelTests(TestCase):
         max_length = blog._meta.get_field('description').max_length
         self.assertEqual(max_length, 2000)
 
-    
+    def test_get_absolute_url(self):
+        blog = Blog.objects.get(id=1)
+        self.assertEqual(blog.get_absolute_url(), '/blog/blogs/1')
+        
