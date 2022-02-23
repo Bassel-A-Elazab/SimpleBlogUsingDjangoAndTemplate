@@ -1,3 +1,5 @@
+from pyexpat import model
+from statistics import mode
 from django.db import models 
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -24,4 +26,17 @@ class Blog(models.Model):
         return self.title
 
 
-     
+class BlogComment(models.Model):
+    blog = models.ForeignKey(Blog, verbose_name=_("blog's resource"), on_delete=models.CASCADE)
+    author = models.ForeignKey(MyUser, verbose_name=_("author's comment"), on_delete=models.SET_NULL, null=True)
+    comment = models.TextField(_("blog's comment"), max_length=1000, help_text="Enter comment about blog here.")
+    comment_date = models.DateTimeField(_("comment's date"), default=datetime.now)
+
+    class Meta:
+        ordering = ["comment_date"]
+
+    def __str__(self):
+        len_comment = 75
+        if len(self.comment) > len_comment:
+            return self.comment[:len_comment] + '...'
+        return self.comment        
