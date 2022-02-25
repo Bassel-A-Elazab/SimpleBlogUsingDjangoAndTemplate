@@ -1,9 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ blog.title }}</h2>
-<p><strong>Post date: </strong>{{ blog.post_date }}</p>
-<p><strong>Author: </strong><a href="">{{ blog.author.name }}</a></p>
-<p><strong>Description: </strong></p>
-<p>{{ blog.description }}</p>
+<div>
+    <h2>{{ blog.title }}</h2>
+    <p><strong>Post date: </strong>{{ blog.post_date }}</p>
+    <p><strong>Author: </strong><a href="">{{ blog.author.name }}</a></p>
+    <p><strong>Description: </strong></p>
+    <p>{{ blog.description }}</p>
+</div>
+
+<div>
+    {% for comment in blog.blogcomment_set.all %}
+        <div>
+            <hr>
+            <p>{{ comment.author }} ({{ comment.comment_date | date }})</p>
+            <p>{{ comment.comment }}</p>
+            <hr>
+        </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <p><a href="">Add a new comment</a></p>
+    {% else %}
+        <p><a href="">Login</a> to add a new comment</p>
+    {% endif %}
+</div>
 {% endblock %}
