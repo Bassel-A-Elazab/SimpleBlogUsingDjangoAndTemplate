@@ -25,9 +25,9 @@
         </div>
     {% endif %}
     {% if user.is_authenticated %}
-        <p><a href="">Add a new comment</a></p>
+        <p><a href="{% url 'add-comment' blog.id %}">Add a new comment</a></p>
     {% else %}
-        <p><a href="">Login</a> to add a new comment</p>
+        <p><a href="{% url 'account_login' %}">Login</a> to add a new comment</p>
     {% endif %}
 </div>
 {% endblock %}
