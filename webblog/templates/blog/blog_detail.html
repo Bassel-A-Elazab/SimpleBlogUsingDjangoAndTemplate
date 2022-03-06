@@ -9,6 +9,25 @@
     <p>{{ blog.description }}</p>
 </div>
 
+{% if user.is_authenticated %}
+<div>
+    <div>
+        <h2>Add a new comment<h2>
+    </div>
+    <div>
+        <form action="" method="post"> 
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Add Comment"/>
+        </form>
+    </div>
+</div>
+{% else %}
+    <p><a href="{% url 'account_login' %}">Login</a> to add a new comment</p>
+{% endif %}
+
 <div>
     {% if blog.blogcomment_set.count > 0 %}
         {% for comment in blog.blogcomment_set.all %}
@@ -23,11 +42,6 @@
         <div>
             <p>There is no comment yet!</p>
         </div>
-    {% endif %}
-    {% if user.is_authenticated %}
-        <p><a href="{% url 'add-comment' blog.id %}">Add a new comment</a></p>
-    {% else %}
-        <p><a href="{% url 'account_login' %}">Login</a> to add a new comment</p>
     {% endif %}
 </div>
 {% endblock %}
