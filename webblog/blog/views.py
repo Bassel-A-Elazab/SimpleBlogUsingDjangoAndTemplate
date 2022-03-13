@@ -1,14 +1,15 @@
-
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import FormView
+from django.views.generic import ListView
+
 from django.views.generic.detail import SingleObjectMixin
 
-from .models import Blog
 from .forms import BlogCommentForm
+
+from .models import Blog
 
 
 class BlogListView(ListView):
@@ -18,7 +19,7 @@ class BlogListView(ListView):
 
 class BlogDetailView(DetailView):
     model = Blog
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = BlogCommentForm()
