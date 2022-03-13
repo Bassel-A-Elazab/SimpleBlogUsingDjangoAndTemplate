@@ -47,7 +47,7 @@ class BlogModelTests(TestCase):
 
     def test_get_absolute_url(self):
         id = self.blog.id
-        self.assertEqual(self.blog.get_absolute_url(), '/blog/blogs/'+str(id))
+        self.assertEqual(self.blog.get_absolute_url(), '/blogs/'+str(id))
 
 
 class BlogCommentModelTests(TestCase):
