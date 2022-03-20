@@ -1,15 +1,16 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.mail import send_mail
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.dispatch import receiver 
+from django.dispatch import receiver
 from django.core.files.base import ContentFile
 
 from allauth.account.signals import user_signed_up
 
 from .managers import MyUserManager
 from .utils import Avatar
+
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
@@ -26,15 +27,17 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    def get_absolute_url(self):
+        return reverse('blogger-detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.email
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 @receiver(user_signed_up)
 def user_signed_up_(request, user, **kwargs):
     s = Avatar.generate(128, user.email, "PNG")
-    user.picture.save('%s.png' % (user.email[0] + str(user.pk)), ContentFile(s))
+    user.picture.save('%s.png' %
+                      (user.email[0] + str(user.pk)), ContentFile(s))
     user.is_active = True
     user.save()
