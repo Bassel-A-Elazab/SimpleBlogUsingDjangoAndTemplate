@@ -2,4 +2,16 @@
 
 {% block content %}
 <p>{{ blogger.name }}</p>
+
+{% for blog in blogger_blog_list %}
+    <div>
+        <hr/>
+        <h2><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h2>
+        <p><strong>Post date: </strong>{{ blog.post_date | date }}</p>
+        <p><strong>Description: </strong></p>
+        <p>{{ blog.description }}</p>
+        <hr/>
+    </div>
+{% endfor %}
+
 {% endblock %}
