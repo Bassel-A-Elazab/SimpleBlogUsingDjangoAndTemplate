@@ -38,6 +38,6 @@ class BloggerDetailViewTest(TestCase):
     
     def test_view_uses_correct_context_object_name(self):
         response = self.client.get(reverse('blogger-detail', kwargs={"pk": self.test_user1.pk}))
-        expected__context_object_name = "blogger"
+        expected_context_object_name = "blogger"
         self.assertEqual(response.status_code, 200)
-        self.assertIn(expected__context_object_name, response.context)
+        self.assertIn(expected_context_object_name, response.context)
