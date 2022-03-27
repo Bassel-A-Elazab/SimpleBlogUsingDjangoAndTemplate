@@ -1,4 +1,3 @@
-from urllib import response
 from django.test import TestCase
 from django.urls import reverse
 
@@ -7,6 +6,20 @@ from webblog.users.models import MyUser
 
 
 class BlogListViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(self):
+        self.test_user1 = MyUser.objects.create_user(
+            email='test@user.com', name='test', password='test123')
+        self.test_user1.is_active = True
+        self.test_user1.save()
+        self.blog = Blog.objects.create(
+            title='Test Blog 1', author=self.test_user1, description='Test Blog 1 Description')
+
+        number_of_blogs = 13
+        for blog_num in range(number_of_blogs):
+            Blog.objects.create(title='Test Blog %s' % blog_num, author=self.test_user1,
+                                description='Test Blog %s Description' % blog_num)
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/')
@@ -21,6 +34,14 @@ class BlogListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/blog_list.html')
 
+    def test_pagination_is_five(self):
+        response = self.client.get(reverse('blogs'))
+        expected_pagination_number = 5
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['is_paginated' == True])
+        self.assertEqual(
+            len(response.context['my_blog_list']), expected_pagination_number)
+
 
 class BlogDetailCommentViewTest(TestCase):
 
@@ -32,7 +53,6 @@ class BlogDetailCommentViewTest(TestCase):
         self.test_user1.save()
         self.blog = Blog.objects.create(
             title='Test Blog 1', author=self.test_user1, description='Test Blog 1 Description')
-        self.blog.save()
 
     def test_view_get_correct_blog_detail(self):
         response = self.client.get(

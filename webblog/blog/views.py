@@ -13,6 +13,7 @@ from .models import Blog
 
 
 class BlogListView(ListView):
+    paginate_by = 5
     context_object_name = 'my_blog_list'
     queryset = Blog.objects.order_by('-post_date')
 
