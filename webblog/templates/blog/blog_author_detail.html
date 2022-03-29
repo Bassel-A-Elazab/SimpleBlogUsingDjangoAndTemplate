@@ -14,4 +14,22 @@
     </div>
 {% endfor %}
 
+<div class="pagination">
+    <span class="step-links">
+        {% if blogger_blog_list.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ blogger_blog_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ blogger_blog_list.number }} of {{ blogger_blog_list.paginator.num_pages }}.
+        </span>
+
+        {% if blogger_blog_list.has_next %}
+            <a href="?page={{ blogger_blog_list.next_page_number }}">next</a>
+            <a href="?page={{ blogger_blog_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
 {% endblock %}
