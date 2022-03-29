@@ -8,6 +8,7 @@ from webblog.blog.models import Blog
 
 
 class BloggerListView(ListView):
+    paginate_by = 5
     model = MyUser
     template_name = "blog/blog_author_list.html"
     context_object_name = "blogger_list"
