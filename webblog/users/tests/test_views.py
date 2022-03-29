@@ -47,6 +47,11 @@ class BloggerDetailViewTest(TestCase):
         self.blog = Blog.objects.create(
             title='Test Blog 1', author=self.test_user1, description='Test Blog 1 Description')
 
+        number_of_blogs = 13
+        for blog_num in range(number_of_blogs):
+            Blog.objects.create(title='Test Blog %s' % blog_num, author=self.test_user1,
+                                description='Test Blog %s Description' % blog_num)
+
     def test_view_uses_correct_template(self):
         response = self.client.get(
             reverse('blogger-detail', kwargs={"pk": self.test_user1.pk}))
@@ -78,3 +83,10 @@ class BloggerDetailViewTest(TestCase):
         self.assertEqual(expected_blog_description,
                          output_blogger_blog.description)
         self.assertEqual(expected_blog_author, self.test_user1)
+
+    def test_pagination_is_five(self):
+        response = self.client.get(
+            reverse('blogger-detail'), kwargs={"pk": self.test_user1.pk})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertEqual(len(response.context['blogger_blog_list']), 5)

@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic import DetailView
@@ -23,5 +24,11 @@ class BloggerDetailView(DetailView):
         context = super(BloggerDetailView, self).get_context_data(
             *args, **kwargs)
         self.blogger = get_object_or_404(MyUser, pk=self.kwargs['pk'])
-        context['blogger_blog_list'] = Blog.objects.filter(author=self.blogger)
+        blog_list = Blog.objects.filter(author=self.blogger)
+        
+        paginator = Paginator(blog_list, 5)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        context['blogger_blog_list'] = page_obj
         return context
