@@ -1,15 +1,16 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
 from webblog.blog.models import Blog, BlogComment
-from webblog.users.models import MyUser
 
 
 class BlogListViewTest(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        self.test_user1 = MyUser.objects.create_user(
+        User = get_user_model()
+        self.test_user1 = User.objects.create_user(
             email='test@user.com', name='test', password='test123')
         self.test_user1.is_active = True
         self.test_user1.save()
@@ -47,7 +48,8 @@ class BlogDetailCommentViewTest(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        self.test_user1 = MyUser.objects.create_user(
+        User = get_user_model()
+        self.test_user1 = User.objects.create_user(
             email='test@user.com', name='test', password='test123')
         self.test_user1.is_active = True
         self.test_user1.save()
