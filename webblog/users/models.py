@@ -1,10 +1,10 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.files.base import ContentFile
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.dispatch import receiver
-from django.core.files.base import ContentFile
 
 from allauth.account.signals import user_signed_up
 
@@ -14,10 +14,10 @@ from .utils import Avatar
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
-    name = models.CharField(max_length=150)
-    bio = models.TextField(blank=True, null=True)
-    date_of_birth = models.DateField(blank=True, null=True)
-    picture = models.ImageField(blank=True, null=True)
+    name = models.CharField(_('username'), max_length=150)
+    bio = models.TextField(_('bio'), blank=True, null=True)
+    date_of_birth = models.DateField(_('birthdate'), blank=True, null=True)
+    picture = models.ImageField(_('profile picture'), blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
