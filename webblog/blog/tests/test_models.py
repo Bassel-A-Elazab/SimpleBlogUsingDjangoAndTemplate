@@ -1,15 +1,16 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils.translation import gettext_lazy as _
 
 from webblog.blog.models import Blog, BlogComment
-from webblog.users.models import MyUser
 
 
 class BlogModelTests(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        self.test_user1 = MyUser.objects.create_user(
+        User = get_user_model()
+        self.test_user1 = User.objects.create_user(
             email='test@user.com', name='test', password='test123')
         self.test_user1.save()
         self.blog = Blog.objects.create(
@@ -54,10 +55,11 @@ class BlogCommentModelTests(TestCase):
 
     @classmethod
     def setUpTestData(self):
-        self.test_user1 = MyUser.objects.create_user(
+        User = get_user_model()
+        self.test_user1 = User.objects.create_user(
             email='test1@user.com', name='test1', password='test123')
         self.test_user1.save()
-        self.test_user2 = MyUser.objects.create_user(
+        self.test_user2 = User.objects.create_user(
             email="test2@user.com", name="test2", password="test123")
         self.test_user2.save()
         self.blog = Blog.objects.create(
