@@ -22,21 +22,26 @@ class BlogModelTests(TestCase):
         self.assertEqual(expected_object_title, str(self.blog))
 
     def test_title_label(self):
-        title_label = self.blog._meta.get_field('title').verbose_name
-        self.assertEqual(title_label, _("blog's title"))
+        expected_title_label = 'title'
+        actual_title_label = self.blog._meta.get_field('title').verbose_name
+        self.assertEqual(actual_title_label, expected_title_label)
 
     def test_author_label(self):
-        author_label = self.blog._meta.get_field('author').verbose_name
-        self.assertEqual(author_label, _("blog's author"))
+        expected_author_label = 'author'
+        actual_author_label = self.blog._meta.get_field('author').verbose_name
+        self.assertEqual(actual_author_label, expected_author_label)
 
     def test_description_label(self):
-        description_label = self.blog._meta.get_field(
+        expected_description_label = 'description'
+        actual_description_label = self.blog._meta.get_field(
             'description').verbose_name
-        self.assertEqual(description_label, _("blog's description"))
+        self.assertEqual(actual_description_label, expected_description_label)
 
     def test_post_date_label(self):
-        post_date_label = self.blog._meta.get_field("post_date").verbose_name
-        self.assertEqual(post_date_label, _("blog's posted date"))
+        expected_post_date_label = 'posted date'
+        actual_post_date_label = self.blog._meta.get_field(
+            "post_date").verbose_name
+        self.assertEqual(actual_post_date_label, expected_post_date_label)
 
     def test_title_max_length(self):
         max_length = self.blog._meta.get_field('title').max_length
@@ -84,22 +89,29 @@ class BlogCommentModelTests(TestCase):
             self.blog_comment_with_high_length))
 
     def test_comment_label(self):
-        comment_label = self.blog_comment._meta.get_field(
+        expected_comment_label = 'comment'
+        actual_comment_label = self.blog_comment._meta.get_field(
             'comment').verbose_name
-        self.assertEqual(comment_label, _("blog's comment"))
+        self.assertEqual(expected_comment_label, actual_comment_label)
 
     def test_blog_label(self):
-        blog_label = self.blog_comment._meta.get_field('blog').verbose_name
-        self.assertEqual(blog_label, "blog's resource")
+        expected_blog_label = 'blog'
+        actual_blog_label = self.blog_comment._meta.get_field(
+            'blog').verbose_name
+        self.assertEqual(actual_blog_label, expected_blog_label)
 
     def test_author_label(self):
-        author_label = self.blog_comment._meta.get_field('author').verbose_name
-        self.assertEqual(author_label, "author's comment")
+        expected_author_label = 'author'
+        actual_author_label = self.blog_comment._meta.get_field(
+            'author').verbose_name
+        self.assertEqual(actual_author_label, expected_author_label)
 
     def test_comment_date_label(self):
-        comment_date_label = self.blog_comment._meta.get_field(
+        expected_comment_date_label = 'date'
+        actual_comment_date_label = self.blog_comment._meta.get_field(
             'comment_date').verbose_name
-        self.assertEqual(comment_date_label, "comment's date")
+        self.assertEqual(actual_comment_date_label,
+                         expected_comment_date_label)
 
     def test_comment_max_length(self):
         max_length = self.blog_comment._meta.get_field('comment').max_length
