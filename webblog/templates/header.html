@@ -7,10 +7,11 @@
             <div class="header_profile_list">
             {% if user.is_authenticated %}
                 <div class="header_nav_item">
-                    <a class="header_nav_link header_user_info" href="#">
+                    <a class="header_nav_link header_user_info" href="{{ user.get_absolute_url }}">
                         <img class="header_avatar" src="{{ user.picture.url }}" alt="{{user.email}}"> 
                         <span class="header_username">{{ user.name }}</span>  
                     </a>
+                    <a class="header_nav_link" href="{% url 'blogger-settings' user.pk %}">Settings</a>
                     <a class="header_nav_link" href="{% url 'account_logout' %}">Logout</a>
                 </div>
             {% else %}

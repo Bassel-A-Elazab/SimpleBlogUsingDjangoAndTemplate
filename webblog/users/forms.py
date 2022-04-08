@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.forms import widgets
+from django.forms import DateInput, widgets
 from django.utils.translation import gettext_lazy as _
 
 from .models import MyUser
@@ -68,3 +68,12 @@ class UserSignUpForm(forms.ModelForm):
     def signup(self, request, user):
         user.name = self.cleaned_data['name']
         user.save()
+
+
+class BloggerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['name', 'bio', 'date_of_birth', 'picture', ]
+        widgets = {
+            'date_of_birth': DateInput(attrs={'type': 'date'}),
+        }

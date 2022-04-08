@@ -90,3 +90,38 @@ class BloggerDetailViewTest(TestCase):
             reverse('blogger-detail', kwargs={"pk": self.test_user1.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['blogger_blog_list']), 5)
+
+
+class BloggerUpdateViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(self):
+        self.User = get_user_model()
+        self.test_user1 = self.User.objects.create_user(
+            email='test@user.com', name='test', password='test123')
+        self.test_user1.is_active = True
+        self.test_user1.save()
+
+    def test_view_get_desired_success_url(self):
+        expected_success_url = '/bloggers/%s/settings' % self.test_user1.pk
+        data = {
+            'name': 'newTest'
+        }
+        self.client.login(email='test@user.com', password="test123")
+        response = self.client.post(
+            reverse('blogger-settings', kwargs={'pk': self.test_user1.pk}), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, expected_success_url)
+
+    def test_view_updated_name_correct(self):
+        expected_name = 'newTest'
+        data = {
+            'name': expected_name
+        }
+
+        self.client.login(email='test@user.com', password="test123")
+        response = self.client.post(
+            reverse('blogger-settings', kwargs={'pk': self.test_user1.pk}), data=data)
+        self.test_user1.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.test_user1.name, expected_name)
