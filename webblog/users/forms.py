@@ -49,10 +49,11 @@ class UserSignUpForm(forms.ModelForm):
     password2 = forms.CharField(
         label='Password Confirmation', widget=widgets.PasswordInput(attrs={'placeholder': 'Password (again)'}))
     field_order = ['email', 'name', 'password1', 'password2']
+
     class Meta:
         model = MyUser
         fields = ('email', 'name')
-        
+
         widgets = {
             'email': forms.TextInput(attrs={'placeholder': 'E-mail address'}),
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
@@ -76,4 +77,5 @@ class BloggerUpdateForm(forms.ModelForm):
         fields = ['name', 'bio', 'date_of_birth', 'picture', ]
         widgets = {
             'date_of_birth': DateInput(attrs={'type': 'date'}),
+            'picture': forms.FileInput(),
         }
