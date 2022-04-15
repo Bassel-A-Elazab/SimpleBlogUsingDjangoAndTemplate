@@ -1,4 +1,8 @@
+from io import BytesIO
+from PIL import Image
+
 from django.test import TestCase
+from django.core.files.base import File
 from django.contrib.auth import get_user_model
 
 
@@ -9,6 +13,18 @@ class MyUserModelsTests(TestCase):
         User = get_user_model()
         self.test_user1 = User.objects.create_user(
             email='test@user.com', name='test', password='test123')
+        self.test_user2 = User.objects.create_user(
+            email='test2@user.com', name='test2', password='test123')
+        self.image_width = 300
+        self.image_height = 300
+
+    @staticmethod
+    def get_image_file(name, ext, size=(500, 500), color=(256, 0, 0)):
+        file_obj = BytesIO()
+        image = Image.new("RGB", size=size, color=color)
+        image.save(file_obj, ext)
+        file_obj.seek(0)
+        return File(file_obj, name=name)
 
     def test_str_is_equal_to_email(self):
         self.assertEqual(str(self.test_user1), 'test@user.com')
@@ -41,3 +57,21 @@ class MyUserModelsTests(TestCase):
         expected_picture_label = 'profile picture'
         self.assertEqual(self.test_user1._meta.get_field(
             'picture').verbose_name, expected_picture_label)
+
+    def test_picture_save_with_correct_size(self):
+        self.test_user1.picture = self.get_image_file(
+            'image.jpg', "png", (300, 300))
+        self.test_user1.save()
+        image = Image.open(self.test_user1.picture.path)
+        actual_image_width, actual_image_height = image.size
+        self.assertLessEqual(actual_image_width, self.image_width)
+        self.assertLessEqual(actual_image_height, self.image_height)
+
+    def test_picture_save_with_wrong_size(self):
+        self.test_user1.picture = self.get_image_file(
+            'image.jpg', "png", (500, 500))
+        self.test_user1.save()
+        image = Image.open(self.test_user1.picture.path)
+        actual_image_width, actual_image_height = image.size
+        self.assertLessEqual(actual_image_width, self.image_width)
+        self.assertLessEqual(actual_image_height, self.image_height)
