@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.files.images import get_image_dimensions
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -21,6 +23,18 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog-detail", kwargs={"pk": self.pk})
+
+    def clean(self):
+        super(Blog, self).clean()
+        if self.cover:
+            width, height = get_image_dimensions(self.cover)
+            if width > 4096 or height > 4096:
+                raise ValidationError(
+                    "Image size should be less than or equal to 4096x4096")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
