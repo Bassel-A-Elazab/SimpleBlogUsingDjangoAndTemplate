@@ -1,4 +1,9 @@
+from io import BytesIO
+from PIL import Image
+
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.files.base import File
 from django.test import TestCase
 from django.utils.translation import gettext_lazy as _
 
@@ -10,12 +15,23 @@ class BlogModelTests(TestCase):
     @classmethod
     def setUpTestData(self):
         User = get_user_model()
+        self.width = 4096
+        self.height = 4096
+
         self.test_user1 = User.objects.create_user(
             email='test@user.com', name='test', password='test123')
         self.test_user1.save()
         self.blog = Blog.objects.create(
             title='Test Blog 1', author=self.test_user1, description='Test Blog 1 Description')
         self.blog.save()
+
+    @staticmethod
+    def get_image_file(name, ext, size=(500, 500), color=(256, 0, 0)):
+        file_obj = BytesIO()
+        image = Image.new("RGB", size=size, color=color)
+        image.save(file_obj, ext)
+        file_obj.seek(0)
+        return File(file_obj, name=name)
 
     def test_object_title(self):
         expected_object_title = self.blog.title
@@ -54,6 +70,28 @@ class BlogModelTests(TestCase):
     def test_get_absolute_url(self):
         id = self.blog.id
         self.assertEqual(self.blog.get_absolute_url(), '/blogs/'+str(id))
+
+    def test_cover_label(self):
+        expected_cover_label = 'cover image'
+        actual_cover_label = self.blog._meta.get_field('cover').verbose_name
+        self.assertEqual(actual_cover_label, expected_cover_label)
+
+    def test_uploaded_correct_cover_image_size(self):
+        self.blog.cover = self.get_image_file(
+            'image.jpg', "png", (1024, 1024))
+        self.blog.save()
+        image = Image.open(self.blog.cover.path)
+        actual_image_width, actual_image_height = image.size
+        self.assertLessEqual(actual_image_width, self.width)
+        self.assertLessEqual(actual_image_height, self.height)
+
+    def test_uploaded_wrong_cover_image_size(self):
+        cover_image = self.get_image_file(
+            'image.jpg', "png", (5096, 5096))
+        self.blog.cover = cover_image
+
+        with self.assertRaises(ValidationError):
+            self.blog.save()
 
 
 class BlogCommentModelTests(TestCase):
