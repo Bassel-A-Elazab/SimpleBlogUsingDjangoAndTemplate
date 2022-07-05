@@ -1,17 +1,17 @@
-from email.policy import default
 from PIL import Image
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.files.base import ContentFile
 from django.db import models
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.dispatch import receiver
 
 from allauth.account.signals import user_signed_up
 
 from .managers import MyUserManager
+
 from .utils import Avatar
 
 
