@@ -1,0 +1,6 @@
+.no-border {
+    outline: 0 !important;
+}
+.header-nav .nav-item .nav-link.active {
+  font-weight: bold;
+}
