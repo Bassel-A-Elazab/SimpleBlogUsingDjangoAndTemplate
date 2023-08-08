@@ -1,67 +1,92 @@
 {% extends 'account/base.html' %}
-
-{% load i18n %}
+{% load static i18n %}
 {% load account socialaccount %}
 {% block head_title %}{% trans 'Sign In' %}{% endblock %}
 {% block content %}
-<div class="login_container">
-    <div class="login_header">
-        <h2>Sign In</h2>
-    </div>
-    <div class="login_main_form">
-        <div class="login_form">
-            <form method="post">
-                {% csrf_token %}
-                {{ form.non_field_errors }}
-                {% for field in form %}
-                    <div class="login_form_fields {{ field.name }}">
-                         {% if field.name == "remember" %}
-                            {{ field.label_tag }}
-                         {% endif %}
-                        {{ field }}
-                    </div>
-                    {% for error in field.errors %}
-                        <span>{{ error }}</span>
+
+<div class="d-flex flex-grow-1 justify-content-center align-items-center">
+    <div class="w-50">
+        <form method="post">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 fw-normal text-center">{% trans 'Welcome back!' %}</h1>
+
+            <div class="col-12 mb-3">
+                <ul class="list-unstyled mb-0">
+                    {% for error in form.non_field_errors %}
+                    <li><text class="dropdown-item d-flex align-items-center gap-2 py-1 text-danger">
+                            <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+                            {{ error }}
+                        </text></li>
                     {% endfor %}
-                {% endfor %}
-                <div class="login_submit_container">
-                    <button class="login_submit_button" type="submit">
-                        {% trans 'Sign In' %}
-                    </button>
-                </div>
-                <div class="login_form_help">
-                    <div class="login_reset_password">
-                        <a class="login_help_link" href="{% url 'account_reset_password' %}">
-                            {% trans 'Forget Password?' %}
-                        </a>
+                </ul>
+            </div>
+
+            <div class="col-12 mb-3">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <img src="{% static 'icons/person.svg' %}" alt="email_login_icon">
+                    </span>
+                    <input type="email"
+                        class="form-control shadow-none bg-light rounded-end {% if form.login.errors %} is-invalid {% endif %}"
+                        placeholder="you@example.com" id="input-login-email" name="{{ form.login.name }}"
+                        value="{{ form.login.value|default:'' }}">
+                    <div class="invalid-feedback mx-4">
+                        <ul>
+                            {% for error in form.login.errors %}
+                            <li>{{ error}}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    <div class="login_signup">
-                        <a class="login_help_link" href="{{ signup_url }}">
-                            sign up
-                        </a>
+                </div>
+            </div>
+
+            <div class="col-12 mb-3">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <img src="{% static 'icons/key.svg' %}" alt="password_login_icon">
+                    </span>
+                    <input type="password"
+                        class="form-control shadow-none bg-light rounded-end {% if form.password.errors %} is-invalid {% endif %}"
+                        placeholder="Enter your password" id="input-login-password" name="{{ form.password.name }}"
+                        value="{{ form.password.value|default:'' }}">
+                    <div class="invalid-feedback mx-4">
+                        <ul>
+                            {% for error in form.login.errors %}
+                            <li>{{ error}}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="col-12 text-end mb-3">
+                <a class="text-decoration-none" href="{% url 'account_reset_password' %}">
+                    {% trans 'Forget Password?' %}
+                </a>
+            </div>
+            <button class="btn btn-outline-dark w-100 py-2" type="submit">{% trans 'Sign in' %}</button>
+        </form>
+
+        <div class="col-12 text-center my-3">
+            <span>{% trans 'Don\'t have an account?' %}</span>
+            <a class="text-decoration-none" href="{{ signup_url }}">
+                {% trans 'Sign up' %}
+            </a>
         </div>
 
-        <div class="login_social">
-            {% get_providers as soicalaccount_providers %}
-            {% if soicalaccount_providers %}
-                <div class="social_account_list">
-                    <a href="{% provider_login_url 'google' %}">
-                        <div class="social_account_providers">
-                            <div class="social_account_icon">
-                                <img class="google_icon" alt="Google sign-in" 
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-                            </div>
-                            <p class="social_account_text">{% trans 'Sign in with Google' %}</p>
-                        </div>
-                    </a>
-                </div>
-            {% endif %}
+        <div class="d-flex align-items-center justify-content-center">
+            <hr class="col-4" />
+            <span class="mx-3 text-center">or connect with</span>
+            <hr class="col-4" />
+        </div>
+
+        <div class="d-flex gap-2 mb-3 justify-content-center">
+            <a type="button" class="btn" href="{% provider_login_url 'google' %}">
+                <img src="{% static 'icons/google.svg' %}" alt="google_login_icon">
+            </a>
         </div>
 
     </div>
-
 </div>
+
 {% endblock %}
