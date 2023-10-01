@@ -1,31 +1,120 @@
-{% extends 'base.html' %}
-
+{% extends 'blog/base.html' %}
+{% load static i18n %}
+{% block head_title %}{% trans 'Home' %}{% endblock %}
 {% block content %}
+
 <div>
-    <ul>
+    <article class="mb-4 rounded featured-img-container">
+        <img src="{{ my_blog_list.0.cover.url }}" alt="Snow" style="height: 500px; width:100%; object-fit: cover;" />
+        <div class="col-lg-5 featured-blog-card bg-light">
+            <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
+            <h5 class="mb-0 text-dark">{{ my_blog_list.0.title }}</h5>
+            <div class="my-2 text-body-secondary">
+                <small class="text-secondary">{{ my_blog_list.0.author.name }}</small>
+                <small class="text-secondary">.</small>
+                <small class="text-secondary">{{ my_blog_list.0.post_date | date }}</small>
+            </div>
+            <p class="card-text text-dark">{{ my_blog_list.0.description|truncatechars:255 }}</p>
+        </div>
+    </article>
+
+    <div>
+        <section class="d-flex flex-column justify-content-center align-items-center">
+            <h3 class="text-center">Editor's Picks</h3>
+            <div class="col-1 border-2 border-top border-dark"></div>
+        </section>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="col-md-8">
+                {% for blog in my_blog_list %}
+                <a class="row g-0 gap-5 featurette my-4 link-body-emphasis text-decoration-none"
+                    href="{{ blog.get_absolute_url }}">
+                    <div class="col-sm order-md-1">
+                        <div class="pick-img-container">
+                            <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" alt="mdo" class="img-fluid" />
+                        </div>
+                    </div>
+                    <div class="col-sm order-md-2 p-4 bg-light">
+                        <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
+                        <h5 class="mb-0 ">{{ blog.title }}</h5>
+                        <div class="my-2 text-body-secondary">
+                            <small class="text-secondary">{{ blog.author.name }}</small>
+                            <small class="text-secondary">.</small>
+                            <small class="text-secondary">{{ blog.post_date | date }}</small>
+                        </div>
+                        <p class="card-text text-dark">{{ blog.description|truncatechars:155 }}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<article class="my-5 rounded featured-img-container">
+    <img src="{{ my_blog_list.0.cover.url }}" alt="Snow" style="height: 500px; width:100%; object-fit: cover;" />
+    <div class="col-lg-5 user-recent-blog-card bg-light">
+        <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
+        <h5 class="mb-0 text-dark">{{ my_blog_list.0.title }}</h5>
+        <div class="my-2 text-body-secondary">
+            <small class="text-secondary">{{ my_blog_list.0.author.name }}</small>
+            <small class="text-secondary">.</small>
+            <small class="text-secondary">{{ my_blog_list.0.post_date | date }}</small>
+        </div>
+        <p class="card-text text-dark">{{ my_blog_list.0.description|truncatechars:255 }}</p>
+    </div>
+</article>
+
+<div class="row g-5">
+    <div class="col-md-8 infinite-container">
         {% for blog in my_blog_list %}
-            <li>
-                <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date | date }}) — <a href="{{ blog.author.get_absolute_url }}">{{ blog.author.name }}</a>
-            </li>
+        <a class="row g-0 gap-4 featurette mb-5 link-body-emphasis text-decoration-none infinite-item"
+            href="{{ blog.get_absolute_url }}">
+            <div class="col-md-4 order-md-1">
+                <div class="recent-img-container">
+                    <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" alt="mdo" class="img-fluid" />
+                </div>
+            </div>
+            <div class="col-md-7 order-md-2 bg-light">
+                <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
+                <h5 class="mb-0 ">{{ blog.title }}</h5>
+                <div class="my-2 text-body-secondary">
+                    <small class="text-secondary">{{ blog.author.name }}</small>
+                    <small class="text-secondary">.</small>
+                    <small class="text-secondary">{{ blog.post_date | date }}</small>
+                </div>
+                <p class="card-text text-dark">{{ blog.description|truncatechars:155 }}</p>
+            </div>
+        </a>
         {% endfor %}
-    </ul>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary loading" role="status">
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="pagination">
+<div class="pagination d-none">
     <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
         {% endif %}
-    </span> 
+    </span>
 </div>
+
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/infinite.min.js' %}"></script>
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        offset: 'bottom-in-view',
+        onBeforePageLoad: function () {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function () {
+            $('.loading').hide();
+        }
+    });
+</script>
+
 {% endblock %}
