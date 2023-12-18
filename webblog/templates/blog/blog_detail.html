@@ -6,12 +6,12 @@
 
 {{ user.is_authenticated|json_script:"is_authenticated" }}
 
-<script src="{% static 'js/blog/index.js' %}"></script>
-
+{% if blog.cover %}
 <div>
     <img src="{{ blog.cover.url }}" alt="{{ blog.title }}" class="rounded"
         style="height: 400px; width:100%; object-fit: cover;" />
 </div>
+{% endif %}
 
 <section>
     <div class="row my-lg-3">
