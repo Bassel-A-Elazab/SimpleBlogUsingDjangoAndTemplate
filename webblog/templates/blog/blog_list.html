@@ -92,6 +92,25 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+            <div class="p-4">
+                <h4 class="fst-italic">Tags</h4>
+                <ol class="list-unstyled mb-0">
+                    {% for tag in tag_list %}
+                    <li>
+                        <!-- ToDo: [Will navigate to all blog posts associated with the chosen tag.] -->
+                        <a class="link-body-emphasis text-decoration-none" href="#">
+                            <h6 class="d-inline-block py-3">{{ tag.name }}</h6>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="pagination d-none">
