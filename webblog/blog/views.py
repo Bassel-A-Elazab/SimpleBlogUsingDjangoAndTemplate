@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views import View
@@ -9,14 +10,18 @@ from django.views.generic.detail import SingleObjectMixin
 
 from .forms import BlogCommentForm
 
-from .models import Blog
+from .models import Blog, BlogTag
 
 
 class BlogListView(ListView):
     paginate_by = 5
     context_object_name = 'my_blog_list'
     queryset = Blog.objects.order_by('-post_date')
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tags = BlogTag.objects.all()[:10]
+        context["tag_list"] = tags
+        return context
 
 class BlogDetailView(DetailView):
     model = Blog
