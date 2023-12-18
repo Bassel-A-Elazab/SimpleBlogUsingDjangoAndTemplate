@@ -7,6 +7,16 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 
+class BlogTag(models.Model):
+    name = models.CharField(max_length=250, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+    
+
 class Blog(models.Model):
     title = models.CharField(_("title"), max_length=200)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(
@@ -17,6 +27,7 @@ class Blog(models.Model):
         _("posted date"), default=timezone.now)
     cover = models.ImageField(
         _("cover image"), upload_to="blog_cover_images/", blank=True, null=True)
+    tags = models.ManyToManyField(to=BlogTag, related_name="blogs", blank=True)
 
     class Meta:
         ordering = ["-post_date"]
