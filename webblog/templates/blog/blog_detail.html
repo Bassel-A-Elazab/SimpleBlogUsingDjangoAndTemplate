@@ -46,8 +46,16 @@
     <div class="d-flex gap-2 my-3">
         <a href="{{ blog.author.get_absolute_url  }}" class="d-block link-body-emphasis text-decoration-none mt-2"
             aria-expanded="false">
-            <img src="{{ blog.author.picture.url }}" alt="{{blog.author.email}}" width="32" height="32"
+            {% if user.is_authenticated %}
+            <img src="{{ user.picture.url }}" alt="{{user.picture.url}}" width="32" height="32"
                 class="rounded-circle">
+            {% else %}
+            <svg class="bd-placeholder-img rounded-circle" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777" />
+            </svg>
+            {% endif %}
         </a>
         <div class="col-md-6">
             <form method="post">
