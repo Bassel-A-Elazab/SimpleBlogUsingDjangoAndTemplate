@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.forms import DateInput, widgets
@@ -77,3 +78,9 @@ class BloggerUpdateForm(forms.ModelForm):
             'date_of_birth': DateInput(attrs={'type': 'date'}),
             'picture': forms.FileInput(),
         }
+
+    def clean_date_of_birth(self):
+        date = self.cleaned_data['date_of_birth']
+        if date and date > datetime.date.today():
+            raise forms.ValidationError("Invalid birth date range!")
+        return date
