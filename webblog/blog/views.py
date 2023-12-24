@@ -1,4 +1,5 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views import View
@@ -19,9 +20,10 @@ class BlogListView(ListView):
     queryset = Blog.objects.order_by('-post_date')
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tags = BlogTag.objects.all()[:10]
-        context["tag_list"] = tags
+        top_tags = BlogTag.objects.annotate(num_blogs=Count('blogs')).order_by('-num_blogs')[:10]
+        context["top_tags"] = top_tags
         return context
+
 
 class BlogDetailView(DetailView):
     model = Blog
@@ -62,3 +64,27 @@ class BlogDetailCommentView(View):
     def post(self, request, *args, **kwargs):
         view = BlogCommentFormView.as_view()
         return view(request, *args, **kwargs)
+
+
+class BlogTagList(ListView):
+    paginate_by = 10
+    model = BlogTag
+    template_name = "blog/blog_tag_list.html"
+    context_object_name = "tag_list"
+
+
+class BlogTagDetail(DetailView):
+    paginate_by = 5
+    model = BlogTag
+    template_name = "blog/blog_tag_detail.html"
+    context_object_name = "tag"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        blogs = self.object.blogs.all()
+
+        paginator = Paginator(blogs, self.paginate_by)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context["blogs"] = page_obj
+        return context

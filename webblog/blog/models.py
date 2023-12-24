@@ -13,6 +13,9 @@ class BlogTag(models.Model):
     class Meta:
         ordering = ["name"]
 
+    def get_absolute_url(self):
+        return reverse("tag-detail", kwargs={"pk": self.pk})
+    
     def __str__(self):
         return self.name
     

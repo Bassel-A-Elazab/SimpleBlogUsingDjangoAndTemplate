@@ -138,10 +138,10 @@
             <div class="p-4">
                 <h4 class="fst-italic">Tags</h4>
                 <ol class="list-unstyled mb-0">
-                    {% for tag in tag_list %}
+                    {% for tag in top_tags %}
                     <li>
                         <!-- TODO [Will navigate to all blog posts associated with the chosen tag.] -->
-                        <a class="link-body-emphasis text-decoration-none" href="#">
+                        <a class="link-body-emphasis text-decoration-none" href="{{ tag.get_absolute_url }}">
                             <h6 class="d-inline-block py-3">{{ tag.name }}</h6>
                         </a>
                     </li>

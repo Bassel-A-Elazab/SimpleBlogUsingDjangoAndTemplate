@@ -8,8 +8,8 @@
     <ul class="nav header-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li class="nav-item"><a href="/"
                 class="nav-link {% if request.path == '/' %} active {% endif %} px-2 text-dark">Home</a></li>
-        <li class="nav-item"><a href="/bloggers/"
-                class="nav-link {% if request.path == '/bloggers/' %} active {% endif %} px-2 text-dark">Explore</a>
+        <li class="nav-item"><a href="/tags/"
+                class="nav-link {% if request.path == '/tags/' %} active {% endif %} px-2 text-dark">Explore</a>
         </li>
     </ul>
     {% if user.is_authenticated %}
