@@ -1,42 +1,45 @@
-<header
-    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <div class="mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <span class="fs-4">My Blog</span>
-        </a>
-    </div>
-    <ul class="nav header-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li class="nav-item"><a href="/"
-                class="nav-link {% if request.path == '/' %} active {% endif %} px-2 text-dark">Home</a></li>
-        <li class="nav-item"><a href="/tags/"
-                class="nav-link {% if request.path == '/tags/' %} active {% endif %} px-2 text-dark">Explore</a>
-        </li>
-    </ul>
-    {% if user.is_authenticated %}
-    <div class="dropdown text-end">
-        <a href="{{ user.get_absolute_url }}"
-            class="d-block link-body-emphasis text-decoration-none dropdown-toggle no-border" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <img src="{{ user.picture.url }}" alt="{{user.email}}" alt="mdo" width="32" height="32"
-                class="rounded-circle" />
-        </a>
-        <ul class="dropdown-menu text-small">
-            <li><text class="dropdown-item">{{ user.name }}</text></li>
-            <li>
-                <hr class="dropdown-divider" />
-            </li>
-            <li>
-                <a class="dropdown-item" href="{% url 'blogger-settings' user.pk %}">Settings</a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+<div class="container-fluid">
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="mb-2 mb-md-0">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <span class="fs-4">My Blog</span>
+            </a>
+        </div>
+        <ul class="nav header-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item"><a href="/"
+                    class="nav-link {% if request.path == '/' %} active {% endif %} px-2 text-dark">Home</a></li>
+            <li class="nav-item"><a href="/tags/"
+                    class="nav-link {% if request.path == '/tags/' %} active {% endif %} px-2 text-dark">Explore</a>
             </li>
         </ul>
-    </div>
-    {% else %}
-    <div class="text-end">
-        <a class="btn btn-outline-dark me-2" href="{% url 'account_login' %}">Login</a>
-        <a class="btn btn-dark text-white" href="{% url 'account_signup' %}">Sign-up</a>
-    </div>
-    {% endif %}
-</header>
+        <div>
+            {% if user.is_authenticated %}
+            <div class="dropdown">
+                <a href="{{ user.get_absolute_url }}"
+                    class="d-block link-body-emphasis text-decoration-none dropdown-toggle no-border"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ user.picture.url }}" alt="{{user.email}}" alt="mdo" width="32" height="32"
+                        class="rounded-circle" />
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item border-bottom" href="{{ user.get_absolute_url }}">{{ user.name }}</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item border-bottom text-secondary"
+                            href="{% url 'blogger-settings' user.pk %}">Settings</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-secondary" href="{% url 'account_logout' %}">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
+            <div class="text-end">
+                <a class="btn btn-outline-dark me-2" href="{% url 'account_login' %}">Login</a>
+                <a class="btn btn-dark text-white" href="{% url 'account_signup' %}">Sign-up</a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+</div>
