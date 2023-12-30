@@ -3,84 +3,109 @@
 {% block head_title %}{{ blogger.name }}{% endblock %}
 {% block content %}
 
-<div class="d-flex flex-wrap align-items-center justify-content-center py-4 mb-5 gap-4">
-    <div class="rounded">
-        <img src="{{ blogger.picture.url }}" width="150" height="150" alt="{{blogger.email}}"
-            class="img-fluid rounded-circle">
-    </div>
-    <div class="col-md-4">
-        <h2>{{ blogger.name }}</h2>
-        {% if blogger.bio %}
-        <p class="card-text fw-light">{{ blogger.bio }}</p>
-        {% endif %}
-    </div>
-</div>
-
-<article class="my-5 rounded featured-img-container">
-    <a class="link-body-emphasis text-decoration-none" href="{{ blogger_blog_list.0.get_absolute_url }}">
-        {% if blogger_blog_list.0.cover %}
-        <img src="{{ blogger_blog_list.0.cover.url }}" alt="{{ blogger_blog_list.0.cover.url }}" alt="mdo"
-            class="img-fluid" style="height: 400px; width:100%; object-fit: cover;" />
-        {% else %}
-        <svg class="bd-placeholder-img" width="100%" height="400" xmlns="http://www.w3.org/2000/svg" role="img"
-            aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#777" />
-        </svg>
-        {% endif %}
-        <div class="col-lg-5 user-recent-blog-card bg-light h-75">
-            <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
-            <h5 class="mb-0 text-dark">{{ blogger_blog_list.0.title }}</h5>
-            <div class="my-2 text-body-secondary">
-                <small class="text-secondary">{{ blogger_blog_list.0.author.name }}</small>
-                <small class="text-secondary">.</small>
-                <small class="text-secondary">{{ blogger_blog_list.0.post_date | date }}</small>
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-auto text-center">
+                <img src="{{ blogger.picture.url }}" alt="{{blogger.email}}" class="img-fluid rounded-circle"
+                    style="border-radius: 50%; width: 150px; height: 150px;">
             </div>
-            <p class="card-text text-dark">{{ blogger_blog_list.0.description|truncatechars:255 }}</p>
+            <div class="col-md-4">
+                <h5 class="card-title mb-2">{{ blogger.name }}</h5>
+                {% if blogger.bio %}
+                <p class="card-text fw-light">{{ blogger.bio }}</p>
+                {% endif %}
+            </div>
         </div>
-    </a>
-</article>
+    </div>
+    {% with recent_blog=blogger_blog_list.0 %}
+    <article class="my-5 rounded featured-img-container">
+        <a class="link-body-emphasis text-decoration-none" href="{{ recent_blog.get_absolute_url }}">
+            {% if recent_blog.cover %}
+            <img src="{{ recent_blog.cover }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
+                style="height: 400px; width:100%; object-fit: cover;" />
+            {% else %}
+            <svg class="bd-placeholder-img rounded" width="100%" height="400" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#777" />
+            </svg>
+            {% endif %}
+            <div class="col-lg-5 user-recent-blog-card h-75 bg-light">
+                <div class="text-truncate">
+                    {% for tag in recent_blog.tags.all %}
+                    <p class="d-inline-block mb-2 text-uppercase text-secondary"><span>#</span>{{ tag }}</p>
+                    {% endfor %}
+                </div>
+                <h5 class="mb-0 text-dark">{{ recent_blog.title }}</h5>
+                <div class="my-2 text-body-secondary">
+                    <small class="text-secondary">{{ recent_blog.author.name }}</small>
+                    <small class="text-secondary">.</small>
+                    <small class="text-secondary">{{ recent_blog.post_date | date }}</small>
+                </div>
+                <p class="card-text text-dark">{{ recent_blog.description|truncatechars:255 }}</p>
+            </div>
+        </a>
+    </article>
+    {% endwith %}
 
-<div class="d-flex justify-content-center mt-5">
-    <div class="col-md-8 infinite-container">
+    {% if blogger_blog_list %}
+    <div class="infinite-container">
         {% for blog in blogger_blog_list %}
         {% if not forloop.first %}
-        <a class="row g-0 gap-4 featurette mb-5 link-body-emphasis text-decoration-none infinite-item"
+        <a class="row gap-4 my-4 justify-content-center link-body-emphasis text-decoration-none infinite-item"
             href="{{ blog.get_absolute_url }}">
-            <div class="col-md-4 order-md-1">
-                <div class="recent-img-container">
-                    {% if blog.cover %}
-                    <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" alt="mdo" class="img-fluid" />
-                    {% else %}
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                        role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                        focusable="false">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#777" />
-                    </svg>
-                    {% endif %}
-                </div>
+            <div class="col-sm-3 recent-img-container my-auto">
+                {% if blog.cover %}
+                <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" class="img-fluid rounded" />
+                {% else %}
+                <svg class="bd-placeholder-img rounded" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                    role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                    focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#777" />
+                </svg>
+                {% endif %}
             </div>
-            <div class="col-md-7 order-md-2 bg-light">
-                <p class="d-inline-block mb-2 text-uppercase text-secondary">Tag</p>
-                <h5 class="mb-0 ">{{ blog.title }}</h5>
+            <div class="col-sm-5 p-2 bg-light rounded">
+                <div class="text-truncate">
+                    {% for tag in blog.tags.all %}
+                    <p class="d-inline-block mb-2 text-uppercase text-secondary"><span>#</span>{{ tag }}</p>
+                    {% endfor %}
+                </div>
+                <h5 class="text-break">{{ blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
+                    <small class="text-secondary">{{ blog.author.name }}</small>
+                    <small class="text-secondary">.</small>
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ blog.description|truncatechars:155 }}</p>
+                <p class="card-text text-dark">{{ blog.description|truncatechars:150 }}</p>
             </div>
         </a>
         {% endif %}
         {% endfor %}
-    </div>
-</div>
-
-<div class="pagination d-none">
-    <span class="step-links">
-        {% if blogger_blog_list.has_next %}
-        <a class="infinite-more-link" href="?page={{ blogger_blog_list.next_page_number }}">next</a>
+        {% if blogs.has_next %}
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary loading" role="status"></div>
+        </div>
         {% endif %}
-    </span>
+        <div class="pagination d-none">
+            <span class="step-links">
+                {% if blogger_blog_list.has_next %}
+                <a class="infinite-more-link" href="?page={{ blogger_blog_list.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center">
+        {% blocktranslate with tag_name=tag.name%}
+        <p class="fs-5 text-body-secondary">Currently, there are no blogs associated with {{ tag_name }} tag at the
+            moment.</p>
+        <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
+        {% endblocktranslate %}
+    </div>
+    {% endif %}
 </div>
 
 <script>
