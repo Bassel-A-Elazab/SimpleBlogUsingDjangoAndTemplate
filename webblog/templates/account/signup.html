@@ -3,105 +3,100 @@
 {% block head_title %}{% trans 'Sign Up' %}{% endblock %}
 {% block content %}
 
-<div class="d-flex flex-grow-1 justify-content-center align-items-center">
-    <div class="w-50">
-        <form method="post">
-            {% csrf_token %}
-            <h1 class="h3 mb-3 fw-normal text-center">{% trans 'Create an account' %}</h1>
-
-            <div class="col-12 mb-3">
-                <ul class="list-unstyled mb-0">
-                    {% for error in form.non_field_errors %}
-                    <li><text class="dropdown-item d-flex align-items-center gap-2 py-1 text-danger">
-                            <span class="d-inline-block bg-danger rounded-circle p-1"></span>
-                            {{ error }}
-                        </text></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="col-12 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <img src="{% static 'icons/email.svg' %}" alt="email_signup_icon">
-                    </span>
-                    <input type="email"
-                        class="form-control shadow-none bg-light rounded-end {% if form.email.errors %} is-invalid {% endif %}"
-                        placeholder="you@example.com" id="input-signup-email" name="{{ form.email.name }}"
-                        value="{{ form.email.value|default:'' }}">
-                    <div class="invalid-feedback mx-4">
-                        <ul>
-                            {% for error in form.email.errors %}
-                            <li>{{ error}}</li>
-                            {% endfor %}
-                        </ul>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <form method="post">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 fw-normal text-center">{% trans 'Create an account' %}</h1>
+                <div class="mb-3">
+                    <ul class="list-unstyled mb-0">
+                        {% for error in form.non_field_errors %}
+                        <li><text class="dropdown-item d-flex align-items-center gap-2 py-1 text-danger">
+                                <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+                                {{ error }}
+                            </text></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <img src="{% static 'icons/email.svg' %}" alt="email_signup_icon">
+                        </span>
+                        <input type="email"
+                            class="form-control shadow-none bg-light rounded-end {% if form.email.errors %} is-invalid {% endif %}"
+                            placeholder="you@example.com" id="input-signup-email" name="{{ form.email.name }}"
+                            value="{{ form.email.value|default:'' }}">
+                        <div class="invalid-feedback mx-2">
+                            <ul>
+                                {% for error in form.email.errors %}
+                                <li>{{ error}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <img src="{% static 'icons/person.svg' %}" alt="username_signup_icon">
-                    </span>
-                    <input type="text" class="form-control shadow-none bg-light rounded-end" placeholder="Username"
-                        id="input-signup-username" name="{{ form.name.name }}" value="{{ form.name.value|default:'' }}">
-                    <div class="invalid-feedback mx-4">
-                        <ul>
-                            {% for error in form.name.errors %}
-                            <li>{{ error}}</li>
-                            {% endfor %}
-                        </ul>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <img src="{% static 'icons/person.svg' %}" alt="username_signup_icon">
+                        </span>
+                        <input type="text" class="form-control shadow-none bg-light rounded-end" placeholder="Username"
+                            id="input-signup-username" name="{{ form.name.name }}" value="{{ form.name.value|default:'' }}">
+                        <div class="invalid-feedback mx-2">
+                            <ul>
+                                {% for error in form.name.errors %}
+                                <li>{{ error}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <img src="{% static 'icons/key.svg' %}" alt="password1_signup_icon">
-                    </span>
-                    <input type="password"
-                        class="form-control shadow-none bg-light rounded-end {% if form.password1.errors %} is-invalid {% endif %}"
-                        placeholder="Your password" id="input-signup-password1" name="{{ form.password1.name }}"
-                        value="{{ form.password1.value|default:'' }}">
-                    <div class="invalid-feedback mx-4">
-                        <ul>
-                            {% for error in form.password1.errors %}
-                            <li>{{ error}}</li>
-                            {% endfor %}
-                        </ul>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <img src="{% static 'icons/key.svg' %}" alt="password1_signup_icon">
+                        </span>
+                        <input type="password"
+                            class="form-control shadow-none bg-light rounded-end {% if form.password1.errors %} is-invalid {% endif %}"
+                            placeholder="Your password" id="input-signup-password1" name="{{ form.password1.name }}"
+                            value="{{ form.password1.value|default:'' }}">
+                        <div class="invalid-feedback mx-2">
+                            <ul>
+                                {% for error in form.password1.errors %}
+                                <li>{{ error}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <img src="{% static 'icons/key.svg' %}" alt="password2_signup_icon">
-                    </span>
-                    <input type="password"
-                        class="form-control shadow-none bg-light rounded-end {% if form.password2.errors %} is-invalid {% endif %}"
-                        placeholder="Repeat your password" id="input-signup-password2" name="{{ form.password2.name }}"
-                        value="{{ form.password2.value|default:'' }}">
-                    <div class="invalid-feedback mx-4">
-                        <ul>
-                            {% for error in form.password2.errors %}
-                            <li>{{ error}}</li>
-                            {% endfor %}
-                        </ul>
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <img src="{% static 'icons/key.svg' %}" alt="password2_signup_icon">
+                        </span>
+                        <input type="password"
+                            class="form-control shadow-none bg-light rounded-end {% if form.password2.errors %} is-invalid {% endif %}"
+                            placeholder="Repeat your password" id="input-signup-password2" name="{{ form.password2.name }}"
+                            value="{{ form.password2.value|default:'' }}">
+                        <div class="invalid-feedback mx-2">
+                            <ul>
+                                {% for error in form.password2.errors %}
+                                <li>{{ error}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <button class="btn btn-outline-dark w-100 py-2" type="submit">{% trans 'Sign up' %}</button>
+            </form>
+            <div class="text-center my-3">
+                <span>{% trans 'already have an account?' %}</span>
+                <a class="text-decoration-none" href="{% url 'account_login' %}">
+                    {% trans 'Sign in' %}
+                </a>
             </div>
-
-            <button class="btn btn-outline-dark w-100 py-2" type="submit">{% trans 'Sign up' %}</button>
-        </form>
-
-        <div class="col-12 text-center my-3">
-            <span>{% trans 'already have an account?' %}</span>
-            <a class="text-decoration-none" href="{% url 'account_login' %}">
-                {% trans 'Sign in' %}
-            </a>
         </div>
     </div>
 </div>
