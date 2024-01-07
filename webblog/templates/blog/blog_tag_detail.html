@@ -32,8 +32,9 @@
                 </div>
                 <h5 class="text-break">{{ blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    {% if blog.author %}
+                    <small class="text-secondary">{{ blog.author.name }} .</small>
+                    {% endif %}
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ blog.description|truncatechars:150 }}</p>
@@ -56,7 +57,8 @@
     {% else %}
     <div class="text-center">
         {% blocktranslate with tag_name=tag.name%}
-        <p class="fs-5 text-body-secondary">Currently, there are no blogs associated with {{ tag_name }} tag at the moment.</p>
+        <p class="fs-5 text-body-secondary">Currently, there are no blogs associated with {{ tag_name }} tag at the
+            moment.</p>
         <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
         {% endblocktranslate %}
     </div>

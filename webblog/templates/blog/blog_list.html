@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
     <article class="mb-4 rounded featured-img-container">
         <a class="link-body-emphasis text-decoration-none" href="{{ featured_blog.get_absolute_url }}">
@@ -6,8 +5,8 @@
             <img src="{{ featured_blog.cover.url }}" alt="{{ featured_blog.cover.url }}" class="img-fluid rounded"
                 style="height: 500px; width:100%; object-fit: cover;" />
             {% else %}
-            <svg class="bd-placeholder-img rounded" width="100%" height="500" xmlns="http://www.w3.org/2000/svg" role="img"
-                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <svg class="bd-placeholder-img rounded" width="100%" height="500" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>Placeholder</title>
                 <rect width="100%" height="100%" fill="#777" />
             </svg>
@@ -20,8 +19,9 @@
                 </div>
                 <h5 class="mb-0 text-dark">{{ featured_blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ featured_blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    {% if featured_blog.author %}
+                    <small class="text-secondary">{{ featured_blog.author.name }} .</small>
+                    {% endif %}
                     <small class="text-secondary">{{ featured_blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ featured_blog.description|truncatechars:255 }}</p>
@@ -56,8 +56,9 @@
                 </div>
                 <h5 class="text-break">{{ blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    {% if blog.author %}
+                    <small class="text-secondary">{{ blog.author.name }} .</small>
+                    {% endif %}
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ blog.description|truncatechars:255 }}</p>
@@ -71,8 +72,8 @@
             <img src="{{ recent_blog.cover }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
                 style="height: 500px; width:100%; object-fit: cover;" />
             {% else %}
-            <svg class="bd-placeholder-img rounded" width="100%" height="500" xmlns="http://www.w3.org/2000/svg" role="img"
-                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <svg class="bd-placeholder-img rounded" width="100%" height="500" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>Placeholder</title>
                 <rect width="100%" height="100%" fill="#777" />
             </svg>
@@ -85,8 +86,9 @@
                 </div>
                 <h5 class="mb-0 text-dark">{{ recent_blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ recent_blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    {% if recent_blog.author %}
+                    <small class="text-secondary">{{ recent_blog.author.name }} .</small>
+                    {% endif %}
                     <small class="text-secondary">{{ recent_blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ recent_blog.description|truncatechars:255 }}</p>
@@ -118,8 +120,9 @@
                     </div>
                     <h5 class="text-break">{{ blog.title }}</h5>
                     <div class="my-2 text-body-secondary">
-                        <small class="text-secondary">{{ blog.author.name }}</small>
-                        <small class="text-secondary">.</small>
+                        {% if blog.author %}
+                        <small class="text-secondary">{{ blog.author.name }} .</small>
+                        {% endif %}
                         <small class="text-secondary">{{ blog.post_date | date }}</small>
                     </div>
                     <p class="card-text text-dark text-break">{{ blog.description|truncatechars:150 }}</p>
