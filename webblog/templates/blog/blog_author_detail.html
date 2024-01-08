@@ -19,10 +19,11 @@
         </div>
     </div>
     {% with recent_blog=blogger_blog_list.0 %}
+    {% if recent_blog %}
     <article class="my-5 rounded featured-img-container">
         <a class="link-body-emphasis text-decoration-none" href="{{ recent_blog.get_absolute_url }}">
             {% if recent_blog.cover %}
-            <img src="{{ recent_blog.cover }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
+            <img src="{{ recent_blog.cover.url }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
                 style="height: 400px; width:100%; object-fit: cover;" />
             {% else %}
             <svg class="bd-placeholder-img rounded" width="100%" height="400" xmlns="http://www.w3.org/2000/svg"
@@ -39,16 +40,15 @@
                 </div>
                 <h5 class="mb-0 text-dark">{{ recent_blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ recent_blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    <small class="text-secondary">{{ recent_blog.author.name }} .</small>
                     <small class="text-secondary">{{ recent_blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ recent_blog.description|truncatechars:255 }}</p>
             </div>
         </a>
     </article>
+    {% endif %}
     {% endwith %}
-
     {% if blogger_blog_list %}
     <div class="infinite-container">
         {% for blog in blogger_blog_list %}
@@ -75,8 +75,7 @@
                 </div>
                 <h5 class="text-break">{{ blog.title }}</h5>
                 <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ blog.author.name }}</small>
-                    <small class="text-secondary">.</small>
+                    <small class="text-secondary">{{ blog.author.name }} .</small>
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
                 <p class="card-text text-dark">{{ blog.description|truncatechars:150 }}</p>
@@ -98,10 +97,9 @@
         </div>
     </div>
     {% else %}
-    <div class="text-center">
+    <div class="py-4 text-center">
         {% blocktranslate with tag_name=tag.name%}
-        <p class="fs-5 text-body-secondary">Currently, there are no blogs associated with {{ tag_name }} tag at the
-            moment.</p>
+        <p class="fs-5 text-body-secondary">Currently, no articles to show</p>
         <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
         {% endblocktranslate %}
     </div>
