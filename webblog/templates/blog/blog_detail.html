@@ -21,11 +21,8 @@
                     class="rounded-circle">
             </a>
             {% else %}
-            <svg class="bd-placeholder-img rounded-circle" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-            </svg>
+            <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle" height="32"
+                width="32">
             {% endif %}
             <div class="d-flex flex-column align-items-start">
                 <a class="link-body-emphasis text-decoration-none" href="{{ blog.author.get_absolute_url }}">
@@ -51,12 +48,8 @@
                 <img src="{{ user.picture.url }}" alt="{{user.picture.url}}" width="32" height="32"
                     class="rounded-circle">
                 {% else %}
-                <svg class="bd-placeholder-img rounded-circle" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-                    role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                    focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
+                <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle"
+                    height="32" width="32">
                 {% endif %}
             </a>
         </div>
@@ -79,11 +72,8 @@
                     class="rounded-circle">
             </a>
             {% else %}
-            <svg class="bd-placeholder-img rounded-circle" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-            </svg>
+            <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle" height="32"
+                width="32">
             {% endif %}
         </div>
         <div class="col-md-6">

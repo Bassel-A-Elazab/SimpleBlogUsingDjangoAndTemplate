@@ -26,11 +26,7 @@
             <img src="{{ recent_blog.cover.url }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
                 style="height: 400px; width:100%; object-fit: cover;" />
             {% else %}
-            <svg class="bd-placeholder-img rounded" width="100%" height="400" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-            </svg>
+            <div class="rounded" style="height: 400px; background-color: #777;"></div>
             {% endif %}
             <div class="col-lg-5 user-recent-blog-card h-75 bg-light">
                 <div class="text-truncate">
@@ -59,12 +55,7 @@
                 {% if blog.cover %}
                 <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" class="img-fluid rounded" />
                 {% else %}
-                <svg class="bd-placeholder-img rounded" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                    focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
+                <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded">
                 {% endif %}
             </div>
             <div class="col-sm-5 p-2 bg-light rounded">
