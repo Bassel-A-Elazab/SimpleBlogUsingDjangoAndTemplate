@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from webblog.blog.forms import BlogCommentForm
 
+
 class BlogFormsTests(TestCase):
 
     def test_valid_comment_form(self):
