@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 from django.test import TestCase
 from django.urls import reverse
 
-from webblog.blog.models import Blog, BlogComment
+from webblog.blog.models import Blog, BlogComment, BlogTag
 from webblog.users.utils import Avatar
 
 
@@ -103,3 +103,51 @@ class BlogDetailCommentViewTest(TestCase):
         response = self.client.post(
             reverse('blog-detail', kwargs={'pk': self.blog.pk}), data=data)
         self.assertEqual(response.status_code, 403)
+
+
+class BlogTagDetailViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        user = get_user_model()
+        cls.user_email = 'test@user.com'
+        cls.user_name = 'test'
+        cls.user_password = 'test123'
+        cls.blog_title = 'Test Blog'
+        cls.blog_description = 'Test Blog Description'
+        cls.blog_comment = 'Test Comment'
+        cls.tag_name = 'Test Tag'
+        number_of_blogs = 13
+
+        cls.test_user = user.objects.create_user(
+            email=cls.user_email, name=cls.user_name, password=cls.user_password)
+        s = Avatar.generate(128, cls.test_user.email, "PNG")
+        cls.test_user.picture.save('%s.png' %
+                      (cls.test_user.email[0] + str(cls.test_user.pk)), ContentFile(s))
+        cls.test_user.is_active = True
+        cls.test_user.save()
+        cls.blog = Blog.objects.create(
+            title=cls.blog_title, author=cls.test_user, description=cls.blog_description)
+        
+        cls.tag = BlogTag.objects.create(name=cls.tag_name)
+
+        for blog_num in range(number_of_blogs):
+            title = f'{cls.blog_title}{blog_num}'
+            description = f'{cls.blog_description}{blog_num}'
+            blog = Blog.objects.create(title=title, author=cls.test_user,
+                                description=description)
+            blog.tags.add(cls.tag)
+        
+    def test_tag_blogs_pagination_is_five(self):
+        response = self.client.get(reverse('tag-detail', kwargs={"pk": self.tag.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['blogs']), 5)
+
+    def test_view_uses_correct_template(self):
+        expected_template_used = 'blog/blog_tag_detail.html'
+        response = self.client.get(reverse('tag-detail', kwargs={"pk": self.tag.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, expected_template_used)
+
+
+

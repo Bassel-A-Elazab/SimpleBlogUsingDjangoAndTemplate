@@ -7,7 +7,7 @@ from django.core.files.base import File
 from django.test import TestCase
 from django.utils.translation import gettext_lazy as _
 
-from webblog.blog.models import Blog, BlogComment
+from webblog.blog.models import Blog, BlogComment, BlogTag
 
 
 class BlogModelTests(TestCase):
@@ -162,3 +162,13 @@ class BlogCommentModelTests(TestCase):
     def test_comment_max_length(self):
         max_length = self.blog_comment_one._meta.get_field('comment').max_length
         self.assertEqual(max_length, 1000)
+
+
+class BlogTagModelTests(TestCase):
+
+    def setUp(self):
+        self.tag_name = 'Test Tag'
+        self.tag = BlogTag.objects.create(name=self.tag_name)
+
+    def test_get_absolute_url(self):
+        self.assertEqual(self.tag.get_absolute_url(), '/tags/'+str(self.tag.id))
