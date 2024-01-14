@@ -5,19 +5,21 @@ from django.core.files.base import File
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
+from webblog.users.models import user_signed_up_
+
 
 class MyUserModelsTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        user = get_user_model()
+        cls.user = get_user_model()
         cls.user_email = 'test@user.com'
         cls.user_name = 'test'
         cls.user_password = 'test123'
         cls.image_width = 300
         cls.image_height = 300
 
-        cls.test_user = user.objects.create_user(
+        cls.test_user = cls.user.objects.create_user(
             email=cls.user_email, name=cls.user_name, password=cls.user_password)
 
     @staticmethod
@@ -88,3 +90,9 @@ class MyUserModelsTests(TestCase):
 
     def test_str_is_equal_to_email(self):
         self.assertEqual(str(self.test_user), self.user_email)
+
+    def test_receiver_signed_up_signal(self):
+        user_signed_up_(sender=None, request=None, user=self.test_user)
+        self.assertTrue(self.test_user.is_active)
+        
+        

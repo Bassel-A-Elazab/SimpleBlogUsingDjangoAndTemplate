@@ -41,7 +41,7 @@ class BloggerListViewTest(TestCase):
         response = self.client.get(reverse('bloggers'))
         expected_pagination_number = 5
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertTrue(response.context['is_paginated'])
         self.assertEqual(
             len(response.context['blogger_list']), expected_pagination_number)
 
