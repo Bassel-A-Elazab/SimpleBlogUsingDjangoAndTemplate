@@ -31,6 +31,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    class Meta:
+        ordering = ["email"]
+    
     def get_absolute_url(self):
         return reverse('blogger-detail', kwargs={'pk': self.pk})
 
