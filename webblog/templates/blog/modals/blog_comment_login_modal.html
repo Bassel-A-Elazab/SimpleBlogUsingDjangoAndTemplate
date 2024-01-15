@@ -1,0 +1,20 @@
+{% load static i18n %}
+
+<div class="modal fade" id="blogCommentModal" tabindex="-1" aria-labelledby="blogCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Log in to continue</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans "You're almost there! To leave a comment, please log in or create an account." %}</p>
+                <p>{% trans "We can't wait to hear what you have to say!" %}</p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-outline-dark" href="{% url 'account_login' %}">Log in</a>
+                <a type="button" class="btn btn-dark" href="{% url 'account_signup' %}">Create account</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+{% extends 'blog/base.html' %}
+{% load static i18n %}
+{% block head_title %}{{ blog.title }}{% endblock %}
+{% block content %}
+
+{{ user.is_authenticated|json_script:"is_authenticated" }}
+
+<div class="container-fluid">
+    {% if blog.cover %}
+    <div>
+        <img src="{{ blog.cover.url }}" alt="{{ blog.title }}" class="rounded"
+            style="height: 400px; width:100%; object-fit: cover;" />
+    </div>
+    {% endif %}
+    <section class="col-lg-8 my-3 mx-auto text-center">
+        <div class="d-flex align-items-center gap-2">
+            {% if blog.author %}
+            <a href="{{ blog.author.get_absolute_url  }}" class="d-block link-body-emphasis text-decoration-none"
+                aria-expanded="false">
+                <img src="{{ blog.author.picture.url }}" alt="{{blog.author.email}}" width="32" height="32"
+                    class="rounded-circle">
+            </a>
+            {% else %}
+            <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle" height="32"
+                width="32">
+            {% endif %}
+            <div class="d-flex flex-column align-items-start">
+                <a class="link-body-emphasis text-decoration-none" href="{{ blog.author.get_absolute_url }}">
+                    {{ blog.author.name }}</a>
+                <small class="text-secondary">{{ blog.post_date | date }}</small>
+            </div>
+        </div>
+        <h1 class="mb-4">{{ blog.title }}</h1>
+        <div>
+            {% for tag in blog.tags.all %}
+            <a class="px-1 link-body-emphasis text-decoration-none text-secondary" href="{{ tag.get_absolute_url }}">
+                #{{ tag }}</a>
+            {% endfor %}
+        </div>
+        <p class="lead text-justify my-4">{{ blog.description }}</p>
+    </section>
+    <section class="row g-0 gap-2 my-3">
+        <h2>{% trans "Top comments" %} ({{ blog.blogcomment_set.count }})</h2>
+        <div class="col-md-auto">
+            <a href="{{ blog.author.get_absolute_url  }}" class="d-block link-body-emphasis text-decoration-none mt-2"
+                aria-expanded="false">
+                {% if user.is_authenticated %}
+                <img src="{{ user.picture.url }}" alt="{{user.picture.url}}" width="32" height="32"
+                    class="rounded-circle">
+                {% else %}
+                <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle"
+                    height="32" width="32">
+                {% endif %}
+            </a>
+        </div>
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                <textarea class="form-control" id="blogCommentTextarea" rows="3" placeholder="Add to the discussion"
+                    name="{{ form.comment.name }}" value="{{ form.comment.value|default:'' }}"></textarea>
+                <button class="btn btn-dark py-2 my-2" type="submit">{% trans 'Submit' %}</button>
+            </form>
+        </div>
+    </section>
+    {% for comment in blog.blogcomment_set.all %}
+    <section class="row g-0 gap-2 my-3">
+        <div class="col-md-auto mt-2">
+            {% if comment.author %}
+            <a href="{{ blog.author.get_absolute_url  }}" class="d-block link-body-emphasis text-decoration-none"
+                aria-expanded="false">
+                <img src="{{ comment.author.picture.url }}" alt="{{comment.author.email}}" width="32" height="32"
+                    class="rounded-circle">
+            </a>
+            {% else %}
+            <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded-circle" height="32"
+                width="32">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class="p-2 border rounded-3">
+                {% if comment.author %}
+                <small class="fs-5 text-secondary">{{ comment.author.name }} .</small>
+                {% endif %}
+                <small class="text-secondary">{{ comment.comment_date | date }}</small>
+                <p class="fw-light text-justify my-2">{{ comment.comment }}</p>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    {% include 'blog/modals/blog_comment_login_modal.html' %}
+</div>
+
+{% endblock %}
