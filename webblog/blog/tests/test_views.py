@@ -105,6 +105,34 @@ class BlogDetailCommentViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
 
+class BlogCreateViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        user = get_user_model()
+        cls.user_email = 'test@user.com'
+        cls.user_name = 'test'
+        cls.user_password = 'test123'
+        cls.blog_title = 'Add blog'
+        cls.blog_description = 'Add blog description'
+
+        cls.test_user = user.objects.create_user(
+            email=cls.user_email, name=cls.user_name, password=cls.user_password)
+        cls.test_user.is_active = True
+        cls.test_user.save()
+
+    def test_add_new_blog_post_success(self):
+        data = {
+            'title': self.blog_title,
+            'description': self.blog_description
+        }
+        self.client.login(email=self.user_email, password=self.user_password)
+        response = self.client.post(reverse('blog-new'), data=data)
+        self.assertEqual(response.status_code, 302)  # Found redirect
+        self.assertEqual(Blog.objects.last().title, self.blog_title)
+        self.assertEqual(Blog.objects.last().description, self.blog_description)
+
+
 class BlogTagDetailViewTest(TestCase):
 
     @classmethod

@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
@@ -6,10 +7,10 @@ from django.views import View
 from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
-
+from django.views.generic import CreateView
 from django.views.generic.detail import SingleObjectMixin
 
-from .forms import BlogCommentForm
+from .forms import BlogCommentForm, BlogCreateForm
 
 from .models import Blog, BlogTag
 
@@ -71,6 +72,16 @@ class BlogDetailCommentView(View):
     def post(self, request, *args, **kwargs):
         view = BlogCommentFormView.as_view()
         return view(request, *args, **kwargs)
+
+
+class BlogCreateView(LoginRequiredMixin, CreateView):
+    model = Blog
+    form_class = BlogCreateForm
+    template_name = 'blog/blog_add.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class BlogTagList(ListView):
