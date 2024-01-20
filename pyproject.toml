@@ -18,6 +18,7 @@ coverage = "^6.2"
 django-utils-six = "^2.0"
 six = "^1.16.0"
 avatar-generator = "^0.2"
+django-summernote = "^0.8.20.0"
 
 [tool.poetry.dev-dependencies]
 
