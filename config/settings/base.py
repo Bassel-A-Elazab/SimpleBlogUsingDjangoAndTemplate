@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
 
     'allauth.socialaccount.providers.google',
+    'django_summernote',
 ]
 
 LOCAL_APPS = [
@@ -188,3 +189,21 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+
+# https://github.com/summernote/django-summernote?tab=readme-ov-file#themes
+SUMMERNOTE_THEME = 'bs4'
+
+# https://github.com/summernote/django-summernote?tab=readme-ov-file#options
+SUMMERNOTE_CONFIG = {
+    # Toolbar customization
+    # https://summernote.org/deep-dive/#custom-toolbar-popover
+    'toolbar': [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'italic','clear']],
+        ['fontname', ['fontname']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['link']],
+        ['view', ['fullscreen', 'codeview', 'help']],
+    ],
+}
