@@ -33,7 +33,7 @@
                     {% endif %}
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ blog.description|truncatechars:150 }}</p>
+                <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
             </div>
         </a>
         {% endfor %}
