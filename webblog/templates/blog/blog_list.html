@@ -22,7 +22,7 @@
                     {% endif %}
                     <small class="text-secondary">{{ featured_blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ featured_blog.description|truncatechars:255 }}</p>
+                <p class="card-text text-dark">{{ featured_blog.description|safe|truncatechars:255 }}</p>
             </div>
         </a>
     </article>
@@ -54,7 +54,7 @@
                     {% endif %}
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ blog.description|truncatechars:255 }}</p>
+                <p class="card-text text-dark">{{ blog.description|safe|truncatechars:255 }}</p>
             </div>
         </a>
         {% endfor %}
@@ -80,7 +80,7 @@
                     {% endif %}
                     <small class="text-secondary">{{ recent_blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ recent_blog.description|truncatechars:255 }}</p>
+                <p class="card-text text-dark">{{ recent_blog.description|safe|truncatechars:255 }}</p>
             </div>
         </a>
     </article>
@@ -109,7 +109,7 @@
                         {% endif %}
                         <small class="text-secondary">{{ blog.post_date | date }}</small>
                     </div>
-                    <p class="card-text text-dark text-break">{{ blog.description|truncatechars:150 }}</p>
+                    <p class="card-text text-dark text-break">{{ blog.description|safe|truncatechars:150 }}</p>
                 </div>
             </a>
             {% endfor %}

@@ -197,6 +197,8 @@ SUMMERNOTE_THEME = 'bs4'
 SUMMERNOTE_CONFIG = {
     # Toolbar customization
     # https://summernote.org/deep-dive/#custom-toolbar-popover
+    'width': '100%',
+    'height': '480',
     'toolbar': [
         ['style', ['style']],
         ['font', ['bold', 'underline', 'italic','clear']],

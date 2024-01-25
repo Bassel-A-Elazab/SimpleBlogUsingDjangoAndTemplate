@@ -37,7 +37,7 @@
                 #{{ tag }}</a>
             {% endfor %}
         </div>
-        <p class="lead text-justify my-4">{{ blog.description }}</p>
+        <p class="lead text-justify my-4">{{ blog.description|safe }}</p>
     </section>
     <section class="row g-0 gap-2 my-3">
         <h2>{% trans "Top comments" %} ({{ blog.blogcomment_set.count }})</h2>

@@ -1,10 +1,20 @@
+const showModal = (modalSelector) => {
+    $(modalSelector).modal("show");
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     if (window.location.href.includes("/blogs/")) {
-        const isUserAuthenticated = JSON.parse(document.getElementById('is_authenticated').textContent);
+        const isUserAuthenticated = JSON.parse(
+            document.getElementById("is_authenticated").textContent
+        );
         $("#blogCommentTextarea").click(function () {
             if (!isUserAuthenticated) {
-                $('#blogCommentModal').modal('show');
+                showModal("#blogCommentModal");
             }
         });
     }
+
+    $("#blog_add_close_button").click(function () {
+        showModal("#blogAddModal");
+    });
 });
