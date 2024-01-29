@@ -8,6 +8,7 @@ from django.views.generic import DetailView
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic.detail import SingleObjectMixin
 
 from .forms import BlogCommentForm, BlogCreateForm
@@ -41,6 +42,13 @@ class BlogDetailView(DetailView):
         context['form'] = BlogCommentForm()
         return context
 
+
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    model = Blog
+
+    def get_success_url(self):
+        return reverse_lazy('blogger-dashboard', kwargs={'pk': self.request.user.pk})
+    
 
 class BlogCommentFormView(SingleObjectMixin, FormView):
     model = Blog
