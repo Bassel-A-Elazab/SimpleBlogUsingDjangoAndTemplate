@@ -1,4 +1,4 @@
-{% extends 'users/base.html' %}
+{% extends 'dashboard/base.html' %}
 {% load static i18n %}
 {% block head_title %}{% trans 'Dashboard' %}{% endblock %}
 {% block content %}
@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">{{ blogs|length }}</h3>
+                    <h3 class="mb-0">{{ total_blogs }}</h3>
                     <p class="card-text mb-auto">Total posts</p>
                 </div>
             </div>
@@ -19,8 +19,7 @@
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <!-- TODO: I'll add the number later. -->
-                    <h3 class="mb-0">0</h3>
+                    <h3 class="mb-0">{{ total_blog_comments }}</h3>
                     <p class="mb-auto">Total post comments</p>
                 </div>
             </div>
@@ -30,30 +29,55 @@
         <div>
             <h4>Posts</h4>
         </div>
-        {% for blog in blogs %}
-        <div
-            class="my-3 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between bg-light p-2 rounded">
-            <div class="col-md-3 mb-2 mb-md-0">
-                <a href="{{ blog.get_absolute_url }}"
-                    class="d-inline-flex link-body-emphasis text-decoration-none text-primary">
-                    {{ blog.title }}
-                </a>
-                <p class="mb-0 text-secondary">Published: <span>{{ blog.post_date | date }}</span></p>
+
+        <div class="infinite-container">
+            {% for blog in blogs %}
+            <div
+                class="my-3 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between bg-light p-2 rounded infinite-item">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <a href="{{ blog.get_absolute_url }}"
+                        class="d-inline-flex link-body-emphasis text-decoration-none text-primary">
+                        {{ blog.title }}
+                    </a>
+                    <p class="mb-0 text-secondary">Published: <span>{{ blog.post_date | date }}</span></p>
+                </div>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li class="d-flex">
+                        <img src="{% static 'icons/chat.svg' %}" alt="chat_icon" width="25" height="25">
+                        <p class="mx-2 mb-0">{{ blog.comment_count }}</p>
+                    </li>
+                </ul>
+                <div class="col-md-3 text-end">
+                    <button type="button" class="btn btn-outline-dark me-2">Edit</button>
+                    <a type="button" class="btn btn-danger" href="">Delete</a>
+                </div>
             </div>
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li class="d-flex">
-                    <img src="{% static 'icons/chat.svg' %}" alt="chat_icon" width="25" height="25">
-                    <!-- TODO: I'll add the number later. -->
-                    <p class="mx-2 mb-0">0</p>
-                </li>
-            </ul>
-            <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-dark me-2">Edit</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+            {% endfor %}
+            {% if blogs.has_next %}
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary loading" role="status"></div>
             </div>
+            <div class="pagination d-none">
+                <span class="step-links">
+                    <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
+                </span>
+            </div>
+            {% endif %}
         </div>
-        {% endfor %}
     </div>
 </div>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        offset: 'bottom-in-view',
+        onBeforePageLoad: function () {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function () {
+            $('.loading').hide();
+        }
+    });
+</script>
 
 {% endblock %}
