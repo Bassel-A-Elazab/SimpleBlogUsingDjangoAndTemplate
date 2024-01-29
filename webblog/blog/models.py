@@ -35,6 +35,10 @@ class Blog(models.Model):
     class Meta:
         ordering = ["-post_date"]
 
+    @property
+    def comment_count(self):
+        return self.blogcomment_set.count()
+    
     def get_absolute_url(self):
         return reverse("blog-detail", kwargs={"pk": self.pk})
 
