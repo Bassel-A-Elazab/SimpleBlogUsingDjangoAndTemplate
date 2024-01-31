@@ -9,9 +9,10 @@ from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
+from django.views.generic import UpdateView
 from django.views.generic.detail import SingleObjectMixin
 
-from .forms import BlogCommentForm, BlogCreateForm
+from .forms import BlogCommentForm, BlogCreateForm, BlogUpdateForm
 
 from .models import Blog, BlogTag
 
@@ -42,7 +43,7 @@ class BlogDetailView(DetailView):
         context['form'] = BlogCommentForm()
         return context
 
-
+    
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
 
@@ -90,6 +91,12 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    model = Blog
+    form_class = BlogUpdateForm
+    template_name = 'blog/blog_update.html'
 
 
 class BlogTagList(ListView):
