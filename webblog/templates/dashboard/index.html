@@ -48,7 +48,7 @@
                     </li>
                 </ul>
                 <div class="col-md-3 text-end">
-                    <button type="button" class="btn btn-outline-dark me-2">Edit</button>
+                    <a type="button" class="btn btn-outline-dark me-2" href="{% url 'blog-update' blog.pk %}">Edit</a>
                     <a type="button" class="btn btn-danger" href="{% url 'blog-delete' blog.pk %}">Delete</a>
                 </div>
             </div>
