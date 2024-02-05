@@ -39,7 +39,7 @@
                     <small class="text-secondary">{{ recent_blog.author.name }} .</small>
                     <small class="text-secondary">{{ recent_blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ recent_blog.description|truncatechars:255 }}</p>
+                <p class="card-text text-dark">{{ recent_blog.description|safe|truncatechars:255 }}</p>
             </div>
         </a>
     </article>
@@ -69,7 +69,7 @@
                     <small class="text-secondary">{{ blog.author.name }} .</small>
                     <small class="text-secondary">{{ blog.post_date | date }}</small>
                 </div>
-                <p class="card-text text-dark">{{ blog.description|truncatechars:150 }}</p>
+                <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
             </div>
         </a>
         {% endif %}
