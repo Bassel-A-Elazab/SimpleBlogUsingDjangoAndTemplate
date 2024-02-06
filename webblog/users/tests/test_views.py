@@ -113,6 +113,60 @@ class BloggerDetailViewTest(TestCase):
         self.assertEqual(len(response.context['blogger_blog_list']), 5)
 
 
+class BloggerDashboardViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        user = get_user_model()
+        cls.user_email = 'test@user.com'
+        cls.user_name = 'test'
+        cls.user_password = 'test123'
+        cls.blog_title = 'Test Blog'
+        cls.blog_description = 'Test Blog Description'
+        number_of_blogs = 13
+        cls.paginate_by = 10
+
+        cls.test_user = user.objects.create_user(
+            email=cls.user_email, name=cls.user_name, password=cls.user_password)
+        s = Avatar.generate(128, cls.test_user.email, "PNG")
+        cls.test_user.picture.save('%s.png' %
+                      (cls.test_user.email[0] + str(cls.test_user.pk)), ContentFile(s))
+        cls.test_user.is_active = True
+        cls.test_user.save()
+        
+        cls.blog = Blog.objects.create(
+            title=cls.blog_title, author=cls.test_user, description=cls.blog_description)
+
+        for blog_num in range(number_of_blogs):
+            title = f'{cls.blog_title}{blog_num}'
+            description = f'{cls.blog_description}{blog_num}'
+            Blog.objects.create(title=title, author=cls.test_user,
+                                description=description)
+    
+    def test_view_render_user_blogs_context(self):
+        self.client.login(email=self.user_email, password=self.user_password)
+        response = self.client.get(
+            reverse('blogger-dashboard', kwargs={"pk": self.test_user.pk}))
+        expected_blog_context_object_name = "blogs"
+        expected_blog_title = "Test Blog12"
+        expected_blog_description = "Test Blog Description12"
+        expected_blog_author = self.test_user
+        output_blogger_blog = response.context_data['blogs'][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(expected_blog_context_object_name, response.context)
+        self.assertEqual(expected_blog_title, output_blogger_blog.title)
+        self.assertEqual(expected_blog_description,
+                         output_blogger_blog.description)
+        self.assertEqual(expected_blog_author, self.test_user)
+    
+    def test_pagination_is_five(self):
+        self.client.login(email=self.user_email, password=self.user_password)
+        response = self.client.get(
+            reverse('blogger-dashboard', kwargs={"pk": self.test_user.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['blogs']), self.paginate_by)
+
 class BloggerUpdateViewTest(TestCase):
 
     @classmethod

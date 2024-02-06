@@ -24,9 +24,14 @@
 
 <body>
     <div class="container d-flex flex-column min-vh-100">
-        {% include 'header.html' %}
+        
+        {% block header %}
+        {% include 'headers/main_header.html' %}
+        {% endblock %}
+
         {% block content %}
         {% endblock %}
+
     </div>
 </body>
 
