@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from webblog.blog.models import Blog
-from webblog.users.utils import Avatar
+from avatar_generator import Avatar
 
 
 class BloggerListViewTest(TestCase):
