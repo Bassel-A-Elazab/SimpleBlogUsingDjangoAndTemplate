@@ -1,4 +1,5 @@
 from PIL import Image
+from avatar_generator import Avatar
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.files.base import ContentFile
@@ -11,8 +12,6 @@ from django.utils.translation import gettext_lazy as _
 from allauth.account.signals import user_signed_up
 
 from .managers import MyUserManager
-
-from .utils import Avatar
 
 
 class MyUser(AbstractBaseUser, PermissionsMixin):

@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from webblog.blog.models import Blog, BlogComment, BlogTag
-from webblog.users.utils import Avatar
+from avatar_generator import Avatar
 
 
 class BlogListViewTest(TestCase):
