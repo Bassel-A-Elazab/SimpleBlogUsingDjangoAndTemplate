@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">{{ total_blog_comments }}</h3>
+                    <h3 class="mb-0">{{ total_blog_comments|default:0 }}</h3>
                     <p class="mb-auto">Total post comments</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
         <div>
             <h4>Posts</h4>
         </div>
-
+        {% if blogs %}
         <div class="infinite-container">
             {% for blog in blogs %}
             <div
@@ -64,6 +64,13 @@
             </div>
             {% endif %}
         </div>
+        {% else %}
+        <div class="text-center">
+            <p class="fs-5 text-body-secondary">This is where you can manage your posts, but you haven't written
+                anything yet.</p>
+            <a class="btn btn-dark rounded-pill px-3" href="{% url 'blog-new' %}">Write your first post now</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 

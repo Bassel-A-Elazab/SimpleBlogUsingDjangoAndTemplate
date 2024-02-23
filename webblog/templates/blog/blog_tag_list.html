@@ -3,6 +3,7 @@
 {% block head_title %}{% trans 'Explore' %}{% endblock %}
 {% block content %}
 
+{% if tag_list %}
 <div class="d-flex flex-grow-1 justify-content-center align-items-center">
     <div class="d-flex gap-4 flex-wrap justify-content-center infinite-container">
         {% for tag in tag_list %}
@@ -10,18 +11,26 @@
             href="{{ tag.get_absolute_url }}"><span>#</span>{{tag}}</a>
         {% endfor %}
     </div>
+    {% if page_obj.has_next %}
     <div class="d-flex justify-content-center">
         <div class="spinner-border text-primary loading" role="status">
         </div>
     </div>
     <div class="pagination">
         <span class="step-links">
-            {% if page_obj.has_next %}
             <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
-            {% endif %}
         </span>
     </div>
+    {% endif %}
 </div>
+{% else %}
+<div class="py-4 text-center">
+    {% blocktranslate%}
+    <p class="fs-5 text-body-secondary">Currently, no tags to show</p>
+    <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
+    {% endblocktranslate %}
+</div>
+{% endif %}
 
 <script>
     var infinite = new Waypoint.Infinite({
