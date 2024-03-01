@@ -74,18 +74,16 @@
         </a>
         {% endif %}
         {% endfor %}
-        {% if blogs.has_next %}
+        {% if blogger_blog_list.has_next %}
         <div class="d-flex justify-content-center">
             <div class="spinner-border text-primary loading" role="status"></div>
         </div>
-        {% endif %}
         <div class="pagination d-none">
             <span class="step-links">
-                {% if blogger_blog_list.has_next %}
                 <a class="infinite-more-link" href="?page={{ blogger_blog_list.next_page_number }}">next</a>
-                {% endif %}
             </span>
         </div>
+        {% endif %}
     </div>
     {% else %}
     <div class="py-4 text-center">

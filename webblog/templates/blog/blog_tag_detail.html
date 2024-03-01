@@ -41,14 +41,12 @@
         <div class="d-flex justify-content-center">
             <div class="spinner-border text-primary loading" role="status"></div>
         </div>
-        {% endif %}
         <div class="pagination d-none">
             <span class="step-links">
-                {% if blogs.has_next %}
                 <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
-                {% endif %}
             </span>
         </div>
+        {% endif %}
     </div>
     {% else %}
     <div class="text-center">

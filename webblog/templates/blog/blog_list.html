@@ -1,6 +1,14 @@
 {% load static i18n %}
 
 <div class="container-fluid">
+    {% if not blog_list %}
+    <div class="py-4 text-center">
+        {% blocktranslate%}
+        <p class="fs-5 text-body-secondary">Currently, no posts to show</p>
+        <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
+        {% endblocktranslate %}
+    </div>
+    {% else %}
     <article class="mb-4 rounded featured-img-container">
         <a class="link-body-emphasis text-decoration-none" href="{{ featured_blog.get_absolute_url }}">
             {% if featured_blog.cover %}
@@ -62,7 +70,7 @@
     <article class="my-5 rounded featured-img-container">
         <a class="link-body-emphasis text-decoration-none" href="{{ recent_blog.get_absolute_url }}">
             {% if recent_blog.cover %}
-            <img src="{{ recent_blog.cover }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
+            <img src="{{ recent_blog.cover.url }}" alt="{{ recent_blog.cover.url }}" class="img-fluid rounded"
                 style="height: 500px; width:100%; object-fit: cover;" />
             {% else %}
             <div class="rounded" style="height: 500px; background-color: #777;"></div>
@@ -113,21 +121,22 @@
                 </div>
             </a>
             {% endfor %}
+            {% if page_obj.has_next %}
             <div class="d-flex justify-content-center">
                 <div class="spinner-border text-primary loading" role="status">
                 </div>
             </div>
             <div class="pagination d-none">
                 <span class="step-links">
-                    {% if page_obj.has_next %}
                     <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                    {% endif %}
                 </span>
             </div>
+            {% endif %}
         </div>
         <div class="col-lg-4">
             <div class="position-sticky" style="top: 2rem;">
                 <h4 class="fst-italic">Tags</h4>
+                {% if top_tags %}
                 <ol class="list-unstyled mb-0">
                     {% for tag in top_tags %}
                     <li>
@@ -137,9 +146,15 @@
                     </li>
                     {% endfor %}
                 </ol>
+                {% else %}
+                <div class="py-4">
+                    <p class="fs-5 text-body-secondary">{%trans 'Currently, no tags to show' %}</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 
 <script>

@@ -40,10 +40,9 @@
                 <div class="mb-3">
                     <h6>Bio</h6>
                     <div class="input-group">
-                        <textarea type="text"
-                            class="form-control shadow-none rounded-end {% if form.bio.errors %} is-invalid {% endif %}"
-                            rows="3" placeholder="Add a bio..." id="input-profile-bio" name="{{ form.bio.name }}"
-                            value="{{ form.bio.value|default:'' }}"></textarea>
+                        <textarea class="form-control shadow-none {% if form.bio.errors %} is-invalid {% endif %}"
+                            rows="4" placeholder="Add a bio..." id="input-profile-bio"
+                            name="{{ form.bio.name }}">{{ form.bio.value|default:'' }}</textarea>
                         <div class="invalid-feedback">
                             <ul>
                                 {% for error in form.bio.errors %}
