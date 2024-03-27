@@ -45,55 +45,58 @@
     </article>
     {% endif %}
     {% endwith %}
-    {% if blogger_blog_list %}
-    <div class="infinite-container">
-        {% for blog in blogger_blog_list %}
-        {% if not forloop.first %}
-        <a class="row gap-4 my-4 justify-content-center link-body-emphasis text-decoration-none infinite-item"
-            href="{{ blog.get_absolute_url }}">
-            <div class="col-sm-3 recent-img-container my-auto">
-                {% if blog.cover %}
-                <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" class="img-fluid rounded" />
-                {% else %}
-                <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded">
-                {% endif %}
-            </div>
-            <div class="col-sm-5 p-2 bg-light rounded">
-                <div class="text-truncate">
-                    {% for tag in blog.tags.all %}
-                    <p class="d-inline-block mb-2 text-uppercase text-secondary"><span>#</span>{{ tag }}</p>
-                    {% endfor %}
-                </div>
-                <h5 class="text-break">{{ blog.title }}</h5>
-                <div class="my-2 text-body-secondary">
-                    <small class="text-secondary">{{ blog.author.name }} .</small>
-                    <small class="text-secondary">{{ blog.post_date | date }}</small>
-                </div>
-                <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
-            </div>
-        </a>
-        {% endif %}
-        {% endfor %}
-        {% if blogger_blog_list.has_next %}
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border text-primary loading" role="status"></div>
+</div>
+
+{% if blogger_blog_list %}
+<div class="infinite-container">
+    {% for blog in blogger_blog_list %}
+    {% if not forloop.first %}
+    <a class="row gap-4 my-4 justify-content-center link-body-emphasis text-decoration-none infinite-item"
+        href="{{ blog.get_absolute_url }}">
+        <div class="col-sm-3 recent-img-container my-auto">
+            {% if blog.cover %}
+            <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" class="img-fluid rounded" />
+            {% else %}
+            <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded">
+            {% endif %}
         </div>
-        <div class="pagination d-none">
-            <span class="step-links">
-                <a class="infinite-more-link" href="?page={{ blogger_blog_list.next_page_number }}">next</a>
-            </span>
+        <div class="col-sm-5 p-2 bg-light rounded">
+            <div class="text-truncate">
+                {% for tag in blog.tags.all %}
+                <p class="d-inline-block mb-2 text-uppercase text-secondary"><span>#</span>{{ tag }}</p>
+                {% endfor %}
+            </div>
+            <h5 class="text-break">{{ blog.title }}</h5>
+            <div class="my-2 text-body-secondary">
+                <small class="text-secondary">{{ blog.author.name }} .</small>
+                <small class="text-secondary">{{ blog.post_date | date }}</small>
+            </div>
+            <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
         </div>
-        {% endif %}
+    </a>
+    {% endif %}
+    {% endfor %}
+    {% if blogger_blog_list.has_next %}
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary loading" role="status"></div>
     </div>
-    {% else %}
-    <div class="py-4 text-center">
-        {% blocktranslate with tag_name=tag.name%}
+    <div class="pagination d-none">
+        <span class="step-links">
+            <a class="infinite-more-link" href="?page={{ blogger_blog_list.next_page_number }}">next</a>
+        </span>
+    </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+    <div class="bg-light w-100 text-center pt-3 rounded">
+        {% blocktranslate%}
         <p class="fs-5 text-body-secondary">Currently, no articles to show</p>
         <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
         {% endblocktranslate %}
     </div>
-    {% endif %}
 </div>
+{% endif %}
 
 <script>
     var infinite = new Waypoint.Infinite({

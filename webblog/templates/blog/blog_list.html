@@ -1,14 +1,17 @@
 {% load static i18n %}
 
-<div class="container-fluid">
-    {% if not blog_list %}
-    <div class="py-4 text-center">
+{% if not blog_list %}
+
+<div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+    <div class="bg-light w-100 text-center pt-3 rounded">
         {% blocktranslate%}
         <p class="fs-5 text-body-secondary">Currently, no posts to show</p>
         <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
         {% endblocktranslate %}
     </div>
-    {% else %}
+</div>
+{% else %}
+<div class="container-fluid">
     <article class="mb-4 rounded featured-img-container">
         <a class="link-body-emphasis text-decoration-none" href="{{ featured_blog.get_absolute_url }}">
             {% if featured_blog.cover %}

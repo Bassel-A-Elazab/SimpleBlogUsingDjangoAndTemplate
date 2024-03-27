@@ -24,11 +24,13 @@
     {% endif %}
 </div>
 {% else %}
-<div class="py-4 text-center">
-    {% blocktranslate%}
-    <p class="fs-5 text-body-secondary">Currently, no tags to show</p>
-    <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
-    {% endblocktranslate %}
+<div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+    <div class="bg-light w-100 text-center pt-3 rounded">
+        {% blocktranslate%}
+        <p class="fs-5 text-body-secondary">Currently, no tags to show</p>
+        <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
+        {% endblocktranslate %}
+    </div>
 </div>
 {% endif %}
 
