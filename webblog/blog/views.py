@@ -19,15 +19,18 @@ from .models import Blog, BlogTag
 
 class BlogListView(ListView):
     paginate_by = 10
-    queryset = Blog.objects.order_by('-post_date')
     template_name = "home/index.html"
+    
+    def get_queryset(self):
+        return Blog.objects.order_by('-post_date')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
 
-        if len(self.queryset) > 0 :
-            featured_blog = self.queryset.annotate(tag_count=Count('tags')).order_by('-tag_count').first()
-            recent_blog = self.queryset.latest('post_date') 
+        if queryset.exists():
+            featured_blog = queryset.annotate(tag_count=Count('tags')).order_by('-tag_count').first()
+            recent_blog = queryset.latest('post_date') 
             top_tags = BlogTag.objects.annotate(num_blogs=Count('blogs')).order_by('-num_blogs')[:10]
             
             context["featured_blog"] = featured_blog
