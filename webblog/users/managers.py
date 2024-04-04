@@ -7,9 +7,9 @@ class MyUserManager(BaseUserManager):
         email = self.normalize_email(email)
 
         if not email:
-            raise ValueError(_('The Email must be set!'))
+            raise ValueError(_("The Email must be set!"))
         if not name:
-            raise ValueError(_('The username must be set!'))
+            raise ValueError(_("The username must be set!"))
 
         user = self.model(email=email, name=name, **extra_fields)
         user.set_password(password)
@@ -17,14 +17,14 @@ class MyUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, name, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_active', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError(_('Superuser must have is_staff=True'))
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError(_("Superuser must have is_staff=True"))
 
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError(_('Superuser must have is_superuser=True'))
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(_("Superuser must have is_superuser=True"))
 
         return self.create_user(email, name, password, **extra_fields)

@@ -7,10 +7,10 @@ from .models import Blog, BlogComment
 class BlogBaseForm(forms.ModelForm):
 
     class Meta:
-        model = Blog 
-        fields = ['title', 'description', 'cover', 'tags']
+        model = Blog
+        fields = ["title", "description", "cover", "tags"]
         widgets = {
-            'description': SummernoteWidget(),
+            "description": SummernoteWidget(),
         }
 
 
@@ -26,11 +26,9 @@ class BlogUpdateForm(BlogBaseForm):
 
 class BlogCommentForm(forms.ModelForm):
     comment = forms.CharField(
-        widget=forms.Textarea(
-            attrs={'placeholder': 'Add your comment...'}
-        )
+        widget=forms.Textarea(attrs={"placeholder": "Add your comment..."})
     )
 
     class Meta:
         model = BlogComment
-        fields = ['comment']
+        fields = ["comment"]
