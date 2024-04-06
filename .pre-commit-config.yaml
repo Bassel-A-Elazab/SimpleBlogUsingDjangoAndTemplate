@@ -28,3 +28,9 @@ repos:
     rev: 5.13.2
     hooks:
       - id: isort
+
+  - repo: https://github.com/djlint/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-reformat-django
+      - id: djlint-django

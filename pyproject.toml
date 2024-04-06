@@ -26,6 +26,7 @@ black = "^24.3.0"
 isort = "^5.13.2"
 pylint = "^3.1.0"
 pre-commit = "^3.7.0"
+djlint = "^1.34.1"
 
 [tool.black]
 line-length = 88
@@ -40,6 +41,10 @@ line_length = 88
 multi_line_output = 3
 skip = ["venv/"]
 skip_glob = ["**/migrations/*.py"]
+
+[tool.djlint]
+profile="django"
+ignore="H006,T003,H023,H031"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
