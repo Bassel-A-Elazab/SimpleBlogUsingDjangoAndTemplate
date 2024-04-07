@@ -1,65 +1,68 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 {% load static i18n %}
-{% block head_title %}{{ tag.name }} {% endblock %}
+{% block head_title %}{{ tag.name }}{% endblock %}
 {% block content %}
-
-<div class="container-fluid">
-    <div class="my-4 rounded bg-light">
-        <h2 class="text-center py-3">{{ tag.name }}</h2>
-    </div>
-    {% if blogs %}
-    <div class="infinite-container">
-        {% for blog in blogs %}
-        <a class="row gap-4 my-4 justify-content-center link-body-emphasis text-decoration-none infinite-item"
-            href="{{ blog.get_absolute_url }}">
-            <div class="col-sm-3 recent-img-container my-auto">
-                {% if blog.cover %}
-                <img src="{{ blog.cover.url }}" alt="{{ blog.cover.url }}" class="img-fluid rounded" />
-                {% else %}
-                <img src="{% static 'icons/placeholder.svg' %}" alt="{{ blog.title }}" class="rounded" height="32"
-                    width="32">
+    <div class="container-fluid">
+        <div class="my-4 rounded bg-light">
+            <h2 class="text-center py-3">{{ tag.name }}</h2>
+        </div>
+        {% if blogs %}
+            <div class="infinite-container">
+                {% for blog in blogs %}
+                    <a class="row gap-4 my-4 justify-content-center link-body-emphasis text-decoration-none infinite-item"
+                       href="{{ blog.get_absolute_url }}">
+                        <div class="col-sm-3 recent-img-container my-auto">
+                            {% if blog.cover %}
+                                <img src="{{ blog.cover.url }}"
+                                     alt="{{ blog.cover.url }}"
+                                     class="img-fluid rounded" />
+                            {% else %}
+                                <img src="{% static 'icons/placeholder.svg' %}"
+                                     alt="{{ blog.title }}"
+                                     class="rounded"
+                                     height="32"
+                                     width="32">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-5 p-2 bg-light rounded">
+                            <div class="text-truncate">
+                                {% for tag in blog.tags.all %}
+                                    <p class="d-inline-block mb-2 text-uppercase text-secondary">
+                                        <span>#</span>{{ tag }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                            <h5 class="text-break">{{ blog.title }}</h5>
+                            <div class="my-2 text-body-secondary">
+                                {% if blog.author %}<small class="text-secondary">{{ blog.author.name }} .</small>{% endif %}
+                                <small class="text-secondary">{{ blog.post_date | date }}</small>
+                            </div>
+                            <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+                {% if blogs.has_next %}
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary loading" role="status"></div>
+                    </div>
+                    <div class="pagination d-none">
+                        <span class="step-links">
+                            <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
+                        </span>
+                    </div>
                 {% endif %}
             </div>
-            <div class="col-sm-5 p-2 bg-light rounded">
-                <div class="text-truncate">
-                    {% for tag in blog.tags.all %}
-                    <p class="d-inline-block mb-2 text-uppercase text-secondary"><span>#</span>{{ tag }}</p>
-                    {% endfor %}
-                </div>
-                <h5 class="text-break">{{ blog.title }}</h5>
-                <div class="my-2 text-body-secondary">
-                    {% if blog.author %}
-                    <small class="text-secondary">{{ blog.author.name }} .</small>
-                    {% endif %}
-                    <small class="text-secondary">{{ blog.post_date | date }}</small>
-                </div>
-                <p class="card-text text-dark">{{ blog.description|safe|truncatechars:150 }}</p>
-            </div>
-        </a>
-        {% endfor %}
-        {% if blogs.has_next %}
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border text-primary loading" role="status"></div>
-        </div>
-        <div class="pagination d-none">
-            <span class="step-links">
-                <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
-            </span>
-        </div>
-        {% endif %}
-    </div>
-    {% else %}
-    <div class="text-center">
-        {% blocktranslate with tag_name=tag.name%}
+        {% else %}
+            <div class="text-center">
+                {% blocktranslate with tag_name=tag.name%}
         <p class="fs-5 text-body-secondary">Currently, there are no blogs associated with {{ tag_name }} tag at the
             moment.</p>
         <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
         {% endblocktranslate %}
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
-
-<script>
+    <script>
     var infinite = new Waypoint.Infinite({
         element: $(".infinite-container")[0],
         offset: "bottom-in-view",
@@ -72,6 +75,5 @@
             $(".loading").hide();
         },
     });
-</script>
-
+    </script>
 {% endblock %}
