@@ -1,4 +1,4 @@
-{% extends 'account/email/base_message.txt' %}
+{% extends "account/email/base_message.txt' %}
 {% load account %}
 {% load i18n %}
 
@@ -11,10 +11,3 @@
 {% endblocktrans %}
 {% endautoescape %}
 {% endblock %}
-
-
-
-    
-
-
-

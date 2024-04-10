@@ -1,87 +1,87 @@
-{% extends 'account/base.html' %}
+{% extends "account/base.html" %}
 {% load static i18n %}
 {% load account socialaccount %}
-{% block head_title %}{% trans 'Sign In' %}{% endblock %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock %}
 {% block content %}
-
-<div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
-    <div class="w-100">
-        <div class="row justify-content-center">
-            <div class="col-lg-5">
-                <form method="post" class="needs-validation">
-                    {% csrf_token %}
-                    <h3 class="mb-3 fw-normal text-center">{% trans 'Welcome back!' %}</h3>
-                    <div class="mb-3">
-                        <ul class="list-unstyled mb-0">
-                            {% for error in form.non_field_errors %}
-                            <li><text class="dropdown-item d-flex align-items-center gap-2 py-1 text-danger">
-                                    <span class="d-inline-block bg-danger rounded-circle p-1"></span>
-                                    {{ error }}
-                                </text></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <img src="{% static 'icons/person.svg' %}" alt="email_login_icon">
-                            </span>
-                            <input type="email"
-                                class="form-control shadow-none bg-light rounded-end {% if form.login.errors %} is-invalid {% endif %}"
-                                placeholder="you@example.com" id="input-login-email" name="{{ form.login.name }}"
-                                value="{{ form.login.value|default:'' }}">
-                            <div class="invalid-feedback mx-2">
-                                <ul>
-                                    {% for error in form.login.errors %}
-                                    <li>{{ error}}</li>
-                                    {% endfor %}
-                                </ul>
+    <div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+        <div class="w-100">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <form method="post" class="needs-validation">
+                        {% csrf_token %}
+                        <h3 class="mb-3 fw-normal text-center">{% trans "Welcome back!" %}</h3>
+                        <div class="mb-3">
+                            <ul class="list-unstyled mb-0">
+                                {% for error in form.non_field_errors %}
+                                    <li>
+                                        <text class="dropdown-item d-flex align-items-center gap-2 py-1 text-danger">
+                                        <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+                                        {{ error }}
+                                        </text>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <img src="{% static 'icons/person.svg' %}" alt="email_login_icon">
+                                </span>
+                                <input type="email"
+                                       class="form-control shadow-none bg-light rounded-end {% if form.login.errors %}is-invalid{% endif %}"
+                                       placeholder="you@example.com"
+                                       id="input-login-email"
+                                       name="{{ form.login.name }}"
+                                       value="{{ form.login.value|default:'' }}">
+                                <div class="invalid-feedback mx-2">
+                                    <ul>
+                                        {% for error in form.login.errors %}<li>{{ error }}</li>{% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <img src="{% static 'icons/key.svg' %}" alt="password_login_icon">
-                            </span>
-                            <input type="password"
-                                class="form-control shadow-none bg-light rounded-end {% if form.password.errors %} is-invalid {% endif %}"
-                                placeholder="Enter your password" id="input-login-password" name="{{ form.password.name }}" 
-                                value="{{ form.password.value|default:'' }}">
-                            <div class="invalid-feedback mx-2">
-                                <ul>
-                                    {% for error in form.login.errors %}
-                                    <li>{{ error}}</li>
-                                    {% endfor %}
-                                </ul>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <img src="{% static 'icons/key.svg' %}" alt="password_login_icon">
+                                </span>
+                                <input type="password"
+                                       class="form-control shadow-none bg-light rounded-end {% if form.password.errors %}is-invalid{% endif %}"
+                                       placeholder="Enter your password"
+                                       id="input-login-password"
+                                       name="{{ form.password.name }}"
+                                       value="{{ form.password.value|default:'' }}">
+                                <div class="invalid-feedback mx-2">
+                                    <ul>
+                                        {% for error in form.login.errors %}<li>{{ error }}</li>{% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        <div class="text-end mb-3">
+                            <a class="text-decoration-none"
+                               href="{% url 'account_reset_password' %}">{% trans "Forget Password?" %}</a>
+                        </div>
+                        <button class="btn btn-outline-dark w-100 py-2" type="submit">{% trans "Sign in" %}</button>
+                    </form>
+                    <div class="text-center my-3">
+                        <span>{% trans "Don\'t have an account?" %}</span>
+                        <a class="text-decoration-none" href="{{ signup_url }}">{% trans "Sign up" %}</a>
                     </div>
-                    <div class="text-end mb-3">
-                        <a class="text-decoration-none" href="{% url 'account_reset_password' %}">
-                            {% trans 'Forget Password?' %}
+                    <div class="d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <hr class="col-3" />
+                            <span class="mx-3 text-center">{% trans "or connect with" %}</span>
+                            <hr class="col-3" />
+                        </div>
+                        <a type="button" class="btn" href="{% provider_login_url 'google' %}">
+                            <img src="{% static 'icons/google.svg' %}" alt="google_login_icon">
                         </a>
                     </div>
-                    <button class="btn btn-outline-dark w-100 py-2" type="submit">{% trans 'Sign in' %}</button>
-                </form>
-                <div class="text-center my-3">
-                    <span>{% trans 'Don\'t have an account?' %}</span>
-                    <a class="text-decoration-none" href="{{ signup_url }}">
-                        {% trans 'Sign up' %}
-                    </a>
-                </div>
-                <div class="d-flex flex-column">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <hr class="col-3" />
-                        <span class="mx-3 text-center">or connect with</span>
-                        <hr class="col-3" />
-                    </div>
-                    <a type="button" class="btn" href="{% provider_login_url 'google' %}">
-                        <img src="{% static 'icons/google.svg' %}" alt="google_login_icon">
-                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

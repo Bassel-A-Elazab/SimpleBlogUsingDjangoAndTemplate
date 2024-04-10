@@ -33,6 +33,12 @@
   color: white;
 }
 
+.featured-img-container img {
+  height: 500px;
+  width:100%;
+  object-fit: cover;
+}
+
 .featured-blog-card {
   position: absolute;
   top: 0;
@@ -41,12 +47,38 @@
   padding: 50px 10px 50px 30px;
 }
 
+.thumbnail-blog-featured-cover {
+  height: 500px;
+  background-color: #777;
+}
+
 .user-recent-blog-card {
   position: absolute;
   top: 45px;
   right: 45px;
   margin-left: 45px;
   padding: 50px 10px 50px 30px;
+}
+
+.blog-detail-cover-image {
+  height: 400px;
+  width:100%;
+  object-fit: cover;
+}
+
+.blog-add-cover-image {
+  display:none
+}
+
+.blog-author-profile-img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.user-setting-profile-image {
+  width: 40px;
+  height: 40px;
 }
 
 @media (max-width: 750px) {

@@ -1,80 +1,89 @@
-{% extends 'dashboard/base.html' %}
+{% extends "dashboard/base.html" %}
 {% load static i18n %}
-{% block head_title %}{% trans 'Dashboard' %}{% endblock %}
+{% block head_title %}
+    {% trans "Dashboard" %}
+{% endblock %}
 {% block content %}
-
-<div class="container-fluid">
-    <div class="my-4 rounded bg-light">
-        <h2 class="mx-3 py-3">Dashboard</h2>
-    </div>
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">{{ total_blogs }}</h3>
-                    <p class="card-text mb-auto">Total posts</p>
+    <div class="container-fluid">
+        <div class="my-4 rounded bg-light">
+            <h2 class="mx-3 py-3">{% trans "Dashboard" %}</h2>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ total_blogs }}</h3>
+                        <p class="card-text mb-auto">{% trans "Total posts" %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ total_blog_comments|default:0 }}</h3>
+                        <p class="mb-auto">{% trans "Total post comments" %}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">{{ total_blog_comments|default:0 }}</h3>
-                    <p class="mb-auto">Total post comments</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
         <div>
-            <h4>Posts</h4>
-        </div>
-        {% if blogs %}
-        <div class="infinite-container">
-            {% for blog in blogs %}
-            <div
-                class="my-3 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between bg-light p-2 rounded infinite-item">
-                <div class="col-md-3 mb-2 mb-md-0">
-                    <a href="{{ blog.get_absolute_url }}"
-                        class="d-inline-flex link-body-emphasis text-decoration-none text-primary">
-                        {{ blog.title }}
-                    </a>
-                    <p class="mb-0 text-secondary">Published: <span>{{ blog.post_date | date }}</span></p>
+            <div>
+                <h4>{% trans "Posts" %}</h4>
+            </div>
+            {% if blogs %}
+                <div class="infinite-container">
+                    {% for blog in blogs %}
+                        <div class="my-3 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between bg-light p-2 rounded infinite-item">
+                            <div class="col-md-3 mb-2 mb-md-0">
+                                <a href="{{ blog.get_absolute_url }}"
+                                   class="d-inline-flex link-body-emphasis text-decoration-none text-primary">
+                                    {{ blog.title }}
+                                </a>
+                                <p class="mb-0 text-secondary">
+                                    Published: <span>{{ blog.post_date | date }}</span>
+                                </p>
+                            </div>
+                            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                                <li class="d-flex">
+                                    <img src="{% static 'icons/chat.svg' %}"
+                                         alt="chat_icon"
+                                         width="25"
+                                         height="25">
+                                    <p class="mx-2 mb-0">{{ blog.comment_count }}</p>
+                                </li>
+                            </ul>
+                            <div class="col-md-3 text-end">
+                                <a type="button"
+                                   class="btn btn-outline-dark me-2"
+                                   href="{% url 'blog-update' blog.pk %}">{% trans "Edit" %}</a>
+                                <a type="button"
+                                   class="btn btn-danger"
+                                   href="{% url 'blog-delete' blog.pk %}">{% trans "Delete" %}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if blogs.has_next %}
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary loading" role="status"></div>
+                        </div>
+                        <div class="pagination d-none">
+                            <span class="step-links">
+                                <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
+                            </span>
+                        </div>
+                    {% endif %}
                 </div>
-                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li class="d-flex">
-                        <img src="{% static 'icons/chat.svg' %}" alt="chat_icon" width="25" height="25">
-                        <p class="mx-2 mb-0">{{ blog.comment_count }}</p>
-                    </li>
-                </ul>
-                <div class="col-md-3 text-end">
-                    <a type="button" class="btn btn-outline-dark me-2" href="{% url 'blog-update' blog.pk %}">Edit</a>
-                    <a type="button" class="btn btn-danger" href="{% url 'blog-delete' blog.pk %}">Delete</a>
+            {% else %}
+                <div class="text-center">
+                    <p class="fs-5 text-body-secondary">
+                        {% trans "This is where you can manage your posts, but you haven't written anything yet." %}
+                    </p>
+                    <a class="btn btn-dark rounded-pill px-3" href="{% url 'blog-new' %}">{% trans "Write your first post now" %}</a>
                 </div>
-            </div>
-            {% endfor %}
-            {% if blogs.has_next %}
-            <div class="d-flex justify-content-center">
-                <div class="spinner-border text-primary loading" role="status"></div>
-            </div>
-            <div class="pagination d-none">
-                <span class="step-links">
-                    <a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">next</a>
-                </span>
-            </div>
             {% endif %}
         </div>
-        {% else %}
-        <div class="text-center">
-            <p class="fs-5 text-body-secondary">This is where you can manage your posts, but you haven't written
-                anything yet.</p>
-            <a class="btn btn-dark rounded-pill px-3" href="{% url 'blog-new' %}">Write your first post now</a>
-        </div>
-        {% endif %}
     </div>
-</div>
-
-<script>
+    <script>
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
         offset: 'bottom-in-view',
@@ -85,6 +94,5 @@
             $('.loading').hide();
         }
     });
-</script>
-
+    </script>
 {% endblock %}
