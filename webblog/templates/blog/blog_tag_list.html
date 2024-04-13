@@ -1,38 +1,39 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 {% load static i18n %}
-{% block head_title %}{% trans 'Explore' %}{% endblock %}
+{% block head_title %}
+    {% trans "Explore" %}
+{% endblock %}
 {% block content %}
-
-{% if tag_list %}
-<div class="d-flex flex-grow-1 justify-content-center align-items-center">
-    <div class="d-flex gap-4 flex-wrap justify-content-center infinite-container">
-        {% for tag in tag_list %}
-        <a class="btn btn-outline-dark rounded-pill px-3 infinite-item" type="button"
-            href="{{ tag.get_absolute_url }}"><span>#</span>{{tag}}</a>
-        {% endfor %}
-    </div>
-    {% if page_obj.has_next %}
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary loading" role="status">
+    {% if tag_list %}
+        <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+            <div class="d-flex gap-4 flex-wrap justify-content-center infinite-container">
+                {% for tag in tag_list %}
+                    <a class="btn btn-outline-dark rounded-pill px-3 infinite-item"
+                       type="button"
+                       href="{{ tag.get_absolute_url }}"><span>#</span>{{ tag }}</a>
+                {% endfor %}
+            </div>
+            {% if page_obj.has_next %}
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary loading" role="status"></div>
+                </div>
+                <div class="pagination">
+                    <span class="step-links">
+                        <a class="infinite-more-link"
+                           href="?page={{ page_obj.next_page_number }}">next</a>
+                    </span>
+                </div>
+            {% endif %}
         </div>
-    </div>
-    <div class="pagination">
-        <span class="step-links">
-            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">next</a>
-        </span>
-    </div>
+    {% else %}
+        <div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+            <div class="bg-light w-100 text-center pt-3 rounded">
+                <p class="fs-5 text-body-secondary">{% trans "Currently, no tags to show..." %}</p>
+                <p class="fs-5 text-body-secondary">{% trans "Stay tuned for future updates!" %}</p>
+            </div>
+        </div>
     {% endif %}
-</div>
-{% else %}
-<div class="py-4 text-center">
-    {% blocktranslate%}
-    <p class="fs-5 text-body-secondary">Currently, no tags to show</p>
-    <p class="fs-5 text-body-secondary">Stay tuned for future updates!</p>
-    {% endblocktranslate %}
-</div>
-{% endif %}
-
-<script>
+    <script>
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
         offset: 'bottom-in-view',
@@ -43,6 +44,5 @@
             $('.loading').hide();
         }
     });
-</script>
-
+    </script>
 {% endblock %}

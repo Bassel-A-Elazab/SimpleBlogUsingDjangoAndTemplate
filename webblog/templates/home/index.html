@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static i18n %}
-{% block head_title %}{% trans 'Home' %}{% endblock %}
-{% block content %}
-
-{% include "blog/blog_list.html" %}
-
+{% block head_title %}
+    {% trans "Home" %}
 {% endblock %}
-
+{% block content %}
+    {% include "blog/blog_list.html" %}
+{% endblock %}

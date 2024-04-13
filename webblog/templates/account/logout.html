@@ -1,28 +1,32 @@
-{% extends 'account/base.html' %}
+{% extends "account/base.html" %}
 {% load static i18n %}
 {% load account %}
-{% block head_title %}{% trans 'Logout' %}{% endblock %}
+{% block head_title %}
+    {% trans "Logout" %}
+{% endblock %}
 {% block content %}
-
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 py-4 px-3 rounded border">
-            <div class="border-bottom">
-                <p>Are you sure you want to logout?</p>
-            </div>
-            <div class="text-end pt-4">
-                <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
-                    {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                    {% endif %}
-                    <a class="btn btn-lg btn-outline-dark" href="{{ request.META.HTTP_REFERER }}">
-                        {% trans 'Cancel'%}</a>
-                    <button type="submit" class="btn btn-lg btn-dark">{% trans 'Logout' %}</button>
-                </form>
+    <div class="container-fluid d-flex flex-grow-1 justify-content-center align-items-center">
+        <div class="w-100">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 py-4 px-3 rounded border">
+                    <div class="border-bottom">
+                        <p>{% trans "Are you sure you want to logout?" %}</p>
+                    </div>
+                    <div class="text-end pt-4">
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden"
+                                       name="{{ redirect_field_name }}"
+                                       value="{{ redirect_field_value }}" />
+                            {% endif %}
+                            <a class="btn btn-lg btn-outline-dark"
+                               href="{{ request.META.HTTP_REFERER }}">{% trans "Cancel" %}</a>
+                            <button type="submit" class="btn btn-lg btn-dark">{% trans "Logout" %}</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 {% endblock %}

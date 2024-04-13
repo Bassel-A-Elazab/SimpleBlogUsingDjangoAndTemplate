@@ -1,46 +1,49 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 {% load static i18n %}
-{% block head_title %}{% trans 'New Post' %}{% endblock %}
-
-{% block header %}
-{% include 'headers/add_blog_header.html' %}
+{% block head_title %}
+    {% trans "New Post" %}
 {% endblock %}
-
+{% block header %}
+    {% include "headers/add_blog_header.html" %}
+{% endblock %}
 {% block content %}
-<div class="container-fluid">
-    <div class="bg-light rounded p-4">
-        <form class="my-3" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="mb-3">
-                <input type="file" name="{{ form.cover.name }}" value="{{ form.cover.value }}" id="blog_cover"
-                    style="display:none;">
-                <label class="btn btn-outline-secondary" for="blog_cover">Add a cover image</label>
-            </div>
-            <div class="input-group my-3">
-                <input type="text"
-                    class="form-control shadow-none rounded-end {% if form.name.errors %} is-invalid {% endif %}"
-                    placeholder="New post title here..." id="input-profile-name" name="{{ form.title.name }}"
-                    value="{{ form.title.value|default:'' }}">
-            </div>
-            <div class="my-3">
-                {{ form.description }}
-            </div>
-            <div class="form-group mb-3">
-                <select class="form-control" id="{{ form.tags.id_for_label }}" name="{{ form.tags.name }}" multiple>
-                    {% for tag in form.tags.field.queryset %}
-                    <option class="my-2 text-center" value="{{ tag.id }}" {% if tag in form.tags.value %}selected{%endif %}>
-                        {{ tag.name }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="d-flex">
-                <button class="btn btn-dark py-2" type="submit">
-                    {% trans 'Publish'%}
-                </button>
-            </div>
-        </form>
+    <div class="container-fluid">
+        <div class="bg-light rounded p-4">
+            <form class="my-3" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input class="blog-add-cover-image"
+                           type="file"
+                           name="{{ form.cover.name }}"
+                           value="{{ form.cover.value }}"
+                           id="blog_cover">
+                    <label class="btn btn-outline-secondary" for="blog_cover">{% trans "Add a cover image" %}</label>
+                </div>
+                <div class="input-group my-3">
+                    <input type="text"
+                           class="form-control shadow-none rounded-end {% if form.name.errors %}is-invalid{% endif %}"
+                           placeholder="New post title here..."
+                           id="input-profile-name"
+                           name="{{ form.title.name }}"
+                           value="{{ form.title.value|default:'' }}">
+                </div>
+                <div class="my-3">{{ form.description }}</div>
+                <div class="form-group mb-3">
+                    <select class="form-control"
+                            id="{{ form.tags.id_for_label }}"
+                            name="{{ form.tags.name }}"
+                            multiple>
+                        {% for tag in form.tags.field.queryset %}
+                            <option class="my-2 text-center"
+                                    value="{{ tag.id }}"
+                                    {% if tag in form.tags.value %}selected{% endif %}>{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-dark py-2" type="submit">{% trans "Publish" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
 {% endblock %}

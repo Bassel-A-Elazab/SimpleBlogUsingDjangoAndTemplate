@@ -1,16 +1,15 @@
 {% load static i18n %}
-
 <div class="container-fluid">
-    <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                <span class="fs-4">{% trans 'My Blog' %}</span>
+            <a href="{% url 'blogs' %}"
+               class="d-inline-flex link-body-emphasis text-decoration-none">
+                <span class="fs-4">{% trans "My Blog" %}</span>
             </a>
         </div>
         <div class="text-end">
             <button type="button" class="btn-close" id="blog_add_close_button"></button>
         </div>
     </header>
-    {% include 'blog/modals/blog_new_close_modal.html' %}
+    {% include "blog/modals/blog_new_close_modal.html" %}
 </div>

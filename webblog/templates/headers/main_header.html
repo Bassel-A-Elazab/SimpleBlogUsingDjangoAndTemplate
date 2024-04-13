@@ -1,56 +1,65 @@
+{% load static i18n %}
 <div class="container-fluid">
-    <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                <span class="fs-4">My Blog</span>
+            <a href="{% url 'blogs' %}"
+               class="d-inline-flex link-body-emphasis text-decoration-none">
+                <span class="fs-4">{% trans "My Blog" %}</span>
             </a>
         </div>
         <ul class="nav header-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li class="nav-item"><a href="/"
-                    class="nav-link {% if request.path == '/' %} active {% endif %} px-2 text-dark">Home</a></li>
-            <li class="nav-item"><a href="/tags/"
-                    class="nav-link {% if request.path == '/tags/' %} active {% endif %} px-2 text-dark">Explore</a>
+            <li class="nav-item">
+                <a href="{% url 'blogs' %}"
+                   class="nav-link {% if request.path == '/' %}active{% endif %} px-2 text-dark">{% trans "Home" %}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'tag-list' %}"
+                   class="nav-link {% if request.path == '/tags/' %}active{% endif %} px-2 text-dark">{% trans "Explore" %}</a>
             </li>
         </ul>
         <div>
             {% if user.is_authenticated %}
-            <div class="row gap-3 text-center align-items-center">
-                <div class="col-md-5 test-new">
-                    <a class="btn btn-dark rounded-pill px-3" href="{% url 'blog-new' %}">Write</a>
+                <div class="row gap-3 text-center align-items-center">
+                    <div class="col-md-5 test-new">
+                        <a class="btn btn-dark rounded-pill px-3" href="{% url 'blog-new' %}">{% trans "Write" %}</a>
+                    </div>
+                    <div class="dropdown col-md-5">
+                        <a href="{{ user.get_absolute_url }}"
+                           class="d-block link-body-emphasis text-decoration-none dropdown-toggle no-border"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img src="{{ user.picture.url }}"
+                                 alt="{{ user.email }}"
+                                 alt="mdo"
+                                 width="32"
+                                 height="32"
+                                 class="rounded-circle" />
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item border-bottom"
+                                   href="{{ user.get_absolute_url }}">{{ user.name }}</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item border-bottom text-secondary"
+                                   href="{% url 'blogger-dashboard' user.pk %}">{% trans "Dashboard" %}</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item border-bottom text-secondary"
+                                   href="{% url 'blogger-settings' user.pk %}">{% trans "Settings" %}</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-secondary"
+                                   href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="dropdown col-md-5">
-                    <a href="{{ user.get_absolute_url }}"
-                        class="d-block link-body-emphasis text-decoration-none dropdown-toggle no-border"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ user.picture.url }}" alt="{{user.email}}" alt="mdo" width="32" height="32"
-                            class="rounded-circle" />
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item border-bottom" href="{{ user.get_absolute_url }}">
-                                {{ user.name}}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-bottom text-secondary"
-                                href="{% url 'blogger-dashboard' user.pk %}">Dashboard</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-bottom text-secondary"
-                                href="{% url 'blogger-settings' user.pk %}">Settings</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-secondary" href="{% url 'account_logout' %}">Sign Out</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             {% else %}
-            <div class="text-end">
-                <a class="btn btn-outline-dark me-2" href="{% url 'account_login' %}">Login</a>
-                <a class="btn btn-dark text-white" href="{% url 'account_signup' %}">Sign-up</a>
-            </div>
+                <div class="text-end">
+                    <a class="btn btn-outline-dark me-2" href="{% url 'account_login' %}">{% trans "Login" %}</a>
+                    <a class="btn btn-dark text-white" href="{% url 'account_signup' %}">{% trans "Sign-up" %}</a>
+                </div>
             {% endif %}
         </div>
     </header>
